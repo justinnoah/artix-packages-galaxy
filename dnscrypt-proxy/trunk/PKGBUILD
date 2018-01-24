@@ -1,0 +1,33 @@
+# Maintainer: Muhammad Herdiansyah <herdiansyah at netc dot eu>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Techlive Zheng <techlivezheng at gmail dot com>
+# Contributor: peace4all <markspost at rocketmail dot com>
+
+pkgname=dnscrypt-proxy
+pkgver=1.9.5
+pkgrel=1
+pkgdesc="A tool for securing communications between a client and a DNS resolver"
+arch=('i686' 'x86_64')
+url="http://dnscrypt.org/"
+license=('custom:ISC')
+depends=('libsodium' 'libtool' 'ldns')
+backup=('etc/dnscrypt-proxy.conf')
+install="dnscrypt-proxy.install"
+source=("https://download.dnscrypt.org/$pkgname/$pkgname-$pkgver.tar.gz")
+sha512sums=('af5abcd08e3a51c1c8e142647946773c7afb4ba5076f95e74a5cbf7c54a62082de98014b6c9a1349ec6938f90d4f3584b6e6caa136902345922e16e7c9689132')
+
+build() {
+  cd $pkgname-$pkgver
+
+  ./configure --prefix=/usr --sbindir=/usr/bin --sysconfdir=/etc
+  make -j2
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+
+  mkdir -p "$pkgdir"/usr/share/{licenses,doc}/$pkgname
+  install -m 644 COPYING "$pkgdir"/usr/share/licenses/$pkgname
+  install -m 644 AUTHORS NEWS README README.markdown "$pkgdir"/usr/share/doc/$pkgname
+}

@@ -1,0 +1,65 @@
+# Maintainer: Rafli Akmal <thefallenrat@artixlinux.org>
+# Contributor: Sébastien Luttringer
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+
+pkgbase=virtualbox-modules-artix
+pkgname=('virtualbox-host-modules-artix' 'virtualbox-guest-modules-artix')
+pkgver=5.2.6
+pkgrel=1
+_linux_major=4
+_linux_minor=14
+_linux_revision=14
+_linux_rel=1
+arch=('x86_64')
+url='http://virtualbox.org'
+license=('GPL')
+depends=("linux>=${_linux_major}.${_linux_minor}.${_linux_revision}"
+         "linux<${_linux_major}.$((_linux_minor+1))")
+makedepends=("linux>=${_linux_major}.${_linux_minor}.${_linux_revision}"
+             "linux<${_linux_major}.$((_linux_minor+1))"
+             "linux-headers>=${_linux_major}.${_linux_minor}.${_linux_revision}"
+             "linux-headers<${_linux_major}.$((_linux_minor+1))"
+             "virtualbox-host-dkms>=$pkgver"
+             "virtualbox-guest-dkms>=$pkgver")
+
+_extramodules=extramodules-${_linux_major}.${_linux_minor}-ARTIX
+_kernver="${_linux_major}.${_linux_minor}.${_linux_revision}-${_linux_rel}-ARTIX"
+
+package_virtualbox-host-modules-artix(){
+  pkgdesc='Virtualbox host kernel modules for Artix Kernel'
+  replaces=('virtualbox-modules' 'virtualbox-host-modules')
+  conflicts=('virtualbox-modules' 'virtualbox-host-modules'
+             'virtualbox-host-dkms')
+  provides=('VIRTUALBOX-HOST-MODULES')
+
+  cd "/var/lib/dkms/vboxhost/${pkgver}_OSE/$_kernver/$CARCH/module"
+  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 *
+
+  # compress each module individually
+  find "$pkgdir" -name '*.ko' -exec xz -T1 {} +
+
+  # systemd module loading
+  printf "vboxdrv\nvboxpci\nvboxnetadp\nvboxnetflt\n" |
+    install -Dm644 /dev/stdin "$pkgdir/usr/lib/modules-load.d/$pkgname.conf"
+}
+
+package_virtualbox-guest-modules-artix(){
+  pkgdesc='Virtualbox guest kernel modules for Artix Kernel'
+  license=('GPL')
+  replaces=('virtualbox-archlinux-modules' 'virtualbox-guest-modules')
+  conflicts=('virtualbox-archlinux-modules' 'virtualbox-guest-modules'
+             'virtualbox-guest-dkms')
+  provides=('VIRTUALBOX-GUEST-MODULES')
+
+  cd "/var/lib/dkms/vboxguest/${pkgver}_OSE/$_kernver/$CARCH/module"
+  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 *
+
+  # compress each module individually
+  find "$pkgdir" -name '*.ko' -exec xz -T1 {} +
+
+  # systemd module loading
+  printf "vboxguest\nvboxsf\nvboxvideo\n" |
+    install -Dm644 /dev/stdin "$pkgdir/usr/lib/modules-load.d/$pkgname.conf"
+}
+
+# vim:set ts=2 sw=2 et:

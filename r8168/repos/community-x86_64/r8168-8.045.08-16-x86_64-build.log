@@ -1,0 +1,12 @@
+[1m[34m  ->(B[m[1m Kernel = 4.14.6-1-ARTIX(B[m
+make: Verzeichnis „/usr/lib/modules/4.14.6-1-ARTIX/build“ wird betreten
+  CC [M]  /build/r8168/src/r8168-8.045.08/src/r8168_n.o
+  CC [M]  /build/r8168/src/r8168-8.045.08/src/r8168_asf.o
+  CC [M]  /build/r8168/src/r8168-8.045.08/src/rtl_eeprom.o
+  CC [M]  /build/r8168/src/r8168-8.045.08/src/rtltool.o
+  LD [M]  /build/r8168/src/r8168-8.045.08/src/r8168.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /build/r8168/src/r8168-8.045.08/src/r8168.mod.o
+  LD [M]  /build/r8168/src/r8168-8.045.08/src/r8168.ko
+make: Verzeichnis „/usr/lib/modules/4.14.6-1-ARTIX/build“ wird verlassen

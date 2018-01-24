@@ -1,0 +1,8 @@
+make -C /lib/modules/4.14.6-1-ARTIX/build M=/build/acpi_call/src/acpi_call-1.1.0 modules
+make[1]: Verzeichnis „/usr/lib/modules/4.14.6-1-ARTIX/build“ wird betreten
+  CC [M]  /build/acpi_call/src/acpi_call-1.1.0/acpi_call.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /build/acpi_call/src/acpi_call-1.1.0/acpi_call.mod.o
+  LD [M]  /build/acpi_call/src/acpi_call-1.1.0/acpi_call.ko
+make[1]: Verzeichnis „/usr/lib/modules/4.14.6-1-ARTIX/build“ wird verlassen
