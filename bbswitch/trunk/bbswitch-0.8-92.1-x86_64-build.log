@@ -1,0 +1,8 @@
+make -C /lib/modules/4.14.6-1-ARTIX/build M="$(pwd)" modules
+make[1]: Verzeichnis „/usr/lib/modules/4.14.6-1-ARTIX/build“ wird betreten
+  CC [M]  /build/bbswitch/src/bbswitch-0.8/bbswitch.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /build/bbswitch/src/bbswitch-0.8/bbswitch.mod.o
+  LD [M]  /build/bbswitch/src/bbswitch-0.8/bbswitch.ko
+make[1]: Verzeichnis „/usr/lib/modules/4.14.6-1-ARTIX/build“ wird verlassen
