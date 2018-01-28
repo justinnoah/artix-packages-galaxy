@@ -1,11 +1,11 @@
-# Maintainer : Rafli Akmal <rafliakmaltejakusuma@gmail.com>
-# Contributor: Alexander F Rødseth <xyproto@archlinux.org>
+# $Id$
+# Maintainer: Alexander F Rødseth <xyproto@archlinux.org>
 # Contributor: Kaiting Chen <kaitocracy@gmail.com>
 # Contributor: Gergely Imreh <imrehgATgmailDOTcom>
 
 pkgname=libx86emu
 pkgver=1.12
-pkgrel=1.1
+pkgrel=1
 pkgdesc='x86 emulation library'
 arch=('x86_64' 'i686')
 url='https://github.com/wfeldt/libx86emu'

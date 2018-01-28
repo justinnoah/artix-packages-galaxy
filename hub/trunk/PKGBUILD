@@ -9,7 +9,7 @@ pkgrel=2
 
 pkgdesc="cli interface for Github"
 url="https://hub.github.com"
-arch=('x86_64')
+arch=('x86_64' 'i686')
 license=('MIT')
 
 depends=('git')

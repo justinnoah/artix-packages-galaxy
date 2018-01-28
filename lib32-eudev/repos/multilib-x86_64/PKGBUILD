@@ -6,13 +6,14 @@ _pkgname=eudev
 pkgname=lib32-eudev
 pkgdesc="The userspace dev tools (udev) forked by Gentoo (32-bit)"
 pkgver=3.2.4
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="http://www.gentoo.org/proj/en/eudev/"
 license=('GPL')
 depends=('lib32-glib2' 'lib32-glibc')
 makedepends=('lib32-gcc-libs' 'lib32-util-linux' 'gobject-introspection' 'gperf' 'python2' 'gtk-doc')
 provides=("lib32-udev=${_udevver}")
+conflicts=("lib32-systemd")
 options=(!makeflags !libtool)
 source=("$pkgname-$pkgver.tar.gz::https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz")
 sha256sums=('a68871be55aecb977ae4a206b5ce5a868a722e025f37387d1a702a409933bbeb')
