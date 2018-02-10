@@ -1,3 +1,0 @@
-virtualbox-guest-modules-artix W: No ELF files and not an "any" package
-virtualbox-guest-modules-artix W: Dependency included and not needed ('linux')
-virtualbox-guest-modules-artix W: Dependency included and not needed ('linux')
