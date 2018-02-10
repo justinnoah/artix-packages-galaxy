@@ -1,7 +1,0 @@
-bbswitch-dkms W: No ELF files and not an "any" package
-bbswitch-dkms W: File (usr/src/) exists in a non-standard directory.
-bbswitch-dkms W: File (usr/src/bbswitch-0.8/) exists in a non-standard directory.
-bbswitch-dkms W: File (usr/src/bbswitch-0.8/dkms.conf) exists in a non-standard directory.
-bbswitch-dkms W: File (usr/src/bbswitch-0.8/Makefile) exists in a non-standard directory.
-bbswitch-dkms W: File (usr/src/bbswitch-0.8/bbswitch.c) exists in a non-standard directory.
-bbswitch-dkms W: Dependency included and not needed ('dkms')

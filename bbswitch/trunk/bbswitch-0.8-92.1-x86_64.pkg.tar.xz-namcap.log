@@ -1,4 +1,0 @@
-bbswitch W: No ELF files and not an "any" package
-bbswitch W: Dependency included and not needed ('linux')
-bbswitch W: Dependency included and not needed ('linux')
-bbswitch W: Dependency included and not needed ('libelf')
