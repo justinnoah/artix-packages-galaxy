@@ -1,3 +1,0 @@
-acpi_call W: No ELF files and not an "any" package
-acpi_call W: Dependency included and not needed ('linux')
-acpi_call W: Dependency included and not needed ('linux')

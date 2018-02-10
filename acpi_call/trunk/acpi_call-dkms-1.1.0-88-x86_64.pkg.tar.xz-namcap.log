@@ -1,7 +1,0 @@
-acpi_call-dkms W: No ELF files and not an "any" package
-acpi_call-dkms W: File (usr/src/) exists in a non-standard directory.
-acpi_call-dkms W: File (usr/src/acpi_call-1.1.0/) exists in a non-standard directory.
-acpi_call-dkms W: File (usr/src/acpi_call-1.1.0/dkms.conf) exists in a non-standard directory.
-acpi_call-dkms W: File (usr/src/acpi_call-1.1.0/acpi_call.c) exists in a non-standard directory.
-acpi_call-dkms W: File (usr/src/acpi_call-1.1.0/Makefile) exists in a non-standard directory.
-acpi_call-dkms W: Dependency included and not needed ('dkms')
