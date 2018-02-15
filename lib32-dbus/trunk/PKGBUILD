@@ -6,7 +6,7 @@
 pkgname=lib32-dbus
 _pkgbasename=dbus
 pkgver=1.12.4
-pkgrel=1.2
+pkgrel=1.3
 pkgdesc="Freedesktop.org message bus system (32-bit)"
 url="https://wiki.freedesktop.org/www/Software/dbus/"
 arch=(x86_64)
@@ -15,7 +15,7 @@ provides=(lib32-libdbus)
 conflicts=(lib32-libdbus)
 replaces=(lib32-libdbus)
 depends=(dbus)
-makedepends=(gcc-multilib lib32-glib2 lib32-expat git autoconf-archive lib32-libx11)
+makedepends=(lib32-gcc-libs lib32-glib2 lib32-expat git autoconf-archive lib32-libx11)
 _commit=636963fd753b538ee5e55c531e2fe7651b233b67 # tags/dbus-1.12.4^0
 source=("git+https://anongit.freedesktop.org/git/dbus/dbus#commit=$_commit")
 sha256sums=('SKIP')
