@@ -57,10 +57,10 @@ build() {
   make
 }
 
-check() {
-  cd dbus
-  make check
-}
+# check() {
+#   cd dbus
+#   make check
+# }
 
 package() {
   cd dbus
