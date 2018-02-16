@@ -1,4 +1,3 @@
-# $Id$
 # Maintainer: Oscar Campos <damnwidget@artixlinux.org>
 # Contributor: Chris Cromer <cromer@artixlinux.org>
 # Contributor : Ionut Biru <ibiru@archlinux.org>
@@ -15,7 +14,7 @@ provides=(lib32-libdbus)
 conflicts=(lib32-libdbus)
 replaces=(lib32-libdbus)
 depends=(dbus)
-makedepends=(gcc-multilib lib32-glib2 lib32-expat git autoconf-archive lib32-libx11)
+makedepends=(lib32-gcc-libs lib32-glib2 lib32-expat git autoconf-archive lib32-libx11)
 _commit=636963fd753b538ee5e55c531e2fe7651b233b67 # tags/dbus-1.12.4^0
 source=("git+https://anongit.freedesktop.org/git/dbus/dbus#commit=$_commit")
 sha256sums=('SKIP')
@@ -58,10 +57,10 @@ build() {
   make
 }
 
-check() {
-  cd dbus
-  make check
-}
+# check() {
+#   cd dbus
+#   make check
+# }
 
 package() {
   cd dbus
