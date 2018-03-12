@@ -26,7 +26,7 @@ pkgname=(
 #         'unbound-openrc'
 #         'cpupower-openrc'
 #         'connman-openrc'
-        'fcron-openrc'
+#         'fcron-openrc'
 #         'rsyslog-openrc'
 #         'salt-openrc'
 #         'thermald-openrc'
