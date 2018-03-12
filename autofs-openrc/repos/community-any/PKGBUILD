@@ -1,0 +1,39 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+_url="https://raw.githubusercontent.com/gentoo/gentoo/master"
+
+pkgname=autofs-openrc
+pkgver=20180312
+pkgrel=1
+pkgdesc="OpenRC autofs init script"
+arch=('any')
+url="https://github.com/artix-linux/packages-galaxy"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'autofs')
+conflicts=('systemd-sysvcompat')
+source=("autofs.initd::${_url}/net-fs/autofs/files/autofs5.initd")
+sha256sums=('5ee23ee05da536fb67456c034e757841b27bc8528d93d2bc835e7427fe77d05e')
+
+# pkgver() {
+# 	date +%Y%m%d
+# }
+
+_inst_initd(){
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+
+    sed -e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g' \
+        -e 's|/var/run|/run|g' \
+        -e 's|/usr/sbin|/usr/bin|g' \
+        -i ${pkgdir}/etc/init.d/$1
+}
+
+_inst_confd(){
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+}
+
+package() {
+    _inst_initd 'autofs'
+}
