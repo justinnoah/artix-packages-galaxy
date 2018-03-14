@@ -60,24 +60,32 @@ pipeline {
 
                             if ( pkgStatus[0] == "M" ) {
                                 IS_ADD = 'true'
-                                if ( srcPath[0].contains('community-testing') ) {
+                                if ( srcPath[0].contains('community-staging') ) {
+                                    ADD_REPO = 'galaxy-goblins'
+                                } else if ( srcPath[0].contains('community-testing') ) {
                                     ADD_REPO = 'galaxy-gremlins'
                                 } else if ( srcPath[0].contains('community-x86_64') || srcPath[0].contains('community-any') ) {
                                     ADD_REPO = 'galaxy'
                                 }
-                                if ( srcPath[0].contains('multilib-testing') ) {
+                                if ( srcPath[0].contains('multilib-staging') ) {
+                                    ADD_REPO = 'lib32-goblins'
+                                } else if ( srcPath[0].contains('multilib-testing') ) {
                                     ADD_REPO = 'lib32-gremlins'
                                 } else if ( srcPath[0].contains('multilib-x86_64') ) {
                                     ADD_REPO = 'lib32'
                                 }
                             } else if ( pkgStatus[1] == "M" ) {
                                 IS_ADD = 'true'
-                                if ( srcPath[1].contains('community-testing') ) {
+                                if ( srcPath[1].contains('community-staging') ) {
+                                    ADD_REPO = 'galaxy-goblins'
+                                } else if ( srcPath[1].contains('community-testing') ) {
                                     ADD_REPO = 'galaxy-gremlins'
                                 } else if ( srcPath[1].contains('community-x86_64') || srcPath[1].contains('community-any') ) {
                                     ADD_REPO = 'galaxy'
                                 }
-                                if ( srcPath[1].contains('multilib-testing') ) {
+                                if ( srcPath[1].contains('multilib-staging') ) {
+                                    ADD_REPO = 'lib32-goblins'
+                                } else if ( srcPath[1].contains('multilib-testing') ) {
                                     ADD_REPO = 'lib32-gremlins'
                                 } else if ( srcPath[1].contains('multilib-x86_64') ) {
                                     ADD_REPO = 'lib32'
@@ -86,32 +94,37 @@ pipeline {
 
                             if ( pkgStatus[0] == "D" ) {
                                 IS_REMOVE = 'true'
-                                if ( srcPath[0].contains('community-testing') ) {
+                                if ( srcPath[0].contains('community-staging') ) {
+                                    RM_REPO = 'galaxy-goblins'
+                                } else if ( srcPath[0].contains('community-testing') ) {
                                     RM_REPO = 'galaxy-gremlins'
                                 } else if ( srcPath[0].contains('community-x86_64') || srcPath[0].contains('community-any') ) {
                                     RM_REPO = 'galaxy'
                                 }
-                                if ( srcPath[0].contains('multilib-testing') ) {
+                                if ( srcPath[0].contains('multilib-staging') ) {
+                                    RM_REPO = 'lib32-goblins'
+                                } else if ( srcPath[0].contains('multilib-testing') ) {
                                     RM_REPO = 'lib32-gremlins'
                                 } else if ( srcPath[0].contains('multilib-x86_64') ) {
                                     RM_REPO = 'lib32'
                                 }
                             } else if ( pkgStatus[1] == "D" ) {
                                 IS_REMOVE = 'true'
-                                if ( srcPath[1].contains('community-testing') ) {
+                                if ( srcPath[1].contains('community-staging') ) {
+                                    RM_REPO = 'galaxy-goblins'
+                                } else if ( srcPath[1].contains('community-testing') ) {
                                     RM_REPO = 'galaxy-gremlins'
                                 } else if ( srcPath[1].contains('community-x86_64') || srcPath[1].contains('community-any') ) {
                                     RM_REPO = 'galaxy'
                                 }
-                                if ( srcPath[1].contains('multilib-testing') ) {
+                                if ( srcPath[1].contains('multilib-staging') ) {
+                                    RM_REPO = 'lib32-goblins'
+                                } else if ( srcPath[1].contains('multilib-testing') ) {
                                     RM_REPO = 'lib32-gremlins'
                                 } else if ( srcPath[1].contains('multilib-x86_64') ) {
                                     RM_REPO = 'lib32'
                                 }
                             }
-
-
-
                             PKG_TRUNK = buildInfo1[0] + '/trunk'
                         }
 
