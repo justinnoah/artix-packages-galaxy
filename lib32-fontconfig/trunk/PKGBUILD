@@ -1,0 +1,71 @@
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+_pkgbasename=fontconfig
+pkgname=lib32-$_pkgbasename
+pkgver=2.13.0
+pkgrel=1
+pkgdesc="A library for configuring and customizing font access (32-bit)"
+arch=(x86_64)
+url="https://www.freedesktop.org/wiki/Software/fontconfig/"
+license=(custom)
+depends=(lib32-expat lib32-freetype2 $_pkgbasename)
+makedepends=(git autoconf-archive gperf python-lxml python-six expat freetype2 docbook-sgml docbook-utils lynx perl-sgmls texlive-formatsextra)
+install=lib32-fontconfig.install
+_commit=f075ca1aeaedbc288d42a70df5cf2fd069ea0d10 # tags/2.13.0^0
+source=("git+https://anongit.freedesktop.org/git/fontconfig#commit=$_commit"
+        lib32-fontconfig.hook)
+md5sums=('SKIP'
+         '94a1e29f7ecf4956b44a7cfd28608c1d')
+# a nice page to test font matching:
+# http://zipcon.net/~swhite/docs/computers/browsers/fonttest.html
+# http://getemoji.com/
+
+pkgver() {
+  cd $_pkgbasename
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd $_pkgbasename
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+  cd $_pkgbasename
+
+  export CC="gcc -m32 -O2"
+  export CXX="g++ -m32 -O2"
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  ./configure --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --sysconfdir=/etc \
+    --with-templatedir=/etc/fonts/conf.avail \
+    --with-xmldir=/etc/fonts \
+    --localstatedir=/var \
+    --disable-static \
+    --with-default-fonts=/usr/share/fonts \
+    --with-add-fonts=/usr/local/share/fonts
+  make
+}
+
+check() {
+  cd $_pkgbasename
+  make -k check
+}
+
+package() {
+  cd $_pkgbasename
+  make DESTDIR="$pkgdir" install
+
+  rm -r "$pkgdir"/{etc,usr/{include,share}}
+  find "$pkgdir/usr/bin" -not -type d -not -name fc-cache -delete
+  mv "$pkgdir"/usr/bin/fc-cache{,-32}
+
+  install -Dm644 ../lib32-fontconfig.hook "$pkgdir/usr/share/libalpm/hooks/lib32-fontconfig.hook"
+
+  # Install license
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
+}
