@@ -1,10 +1,12 @@
-# Maintainer: Dylan Araps <dylan.araps@gmail.com>
+# Maintainer: Morten Linderud <foxboron@archlinux.org>
+# Contributor: Dylan Araps <dylan.araps@gmail.com>
+
 pkgname=neofetch
 pkgver=3.3.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A CLI system information tool written in BASH that supports displaying images."
 arch=('any')
-url="https://github.com/dylanaraps/${pkgname}"
+url="https://github.com/dylanaraps/neofetch"
 license=('MIT')
 depends=('bash')
 optdepends=(
@@ -21,11 +23,11 @@ optdepends=(
   'xorg-xrandr: Resolution detection (Multi Monitor + Refresh rates)'
   'xorg-xwininfo: See https://github.com/dylanaraps/neofetch/wiki/Images-in-the-terminal'
 )
-source=("https://github.com/dylanaraps/${pkgname}/archive/${pkgver}.tar.gz")
-md5sums=('98e4d79ff945326e14f673e34c386837')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/dylanaraps/neofetch/archive/${pkgver}.tar.gz")
+sha256sums=('4808e76bd81da3602cb5be7e01dfed8223b1109e2792755dd0d54126014ee696')
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}/"
+  cd "${pkgname}-${pkgver}/"
   make DESTDIR="$pkgdir" install
-  install -D -m644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
 }
