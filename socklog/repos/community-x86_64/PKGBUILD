@@ -5,7 +5,7 @@
 
 pkgname=socklog
 pkgver=2.1.0
-pkgrel=4
+pkgrel=5
 pkgdesc="Small and secure syslogd replacement for use with Runit"
 arch=('i686' 'x86_64')
 depends=('glibc' 'runit')
@@ -97,11 +97,10 @@ package() {
   done
 
   msg 'Installing Runit service files...'
-  mkdir -p "$pkgdir/etc/sv"/{klog,socklog/log}
-  install -D -m755 "$srcdir/klog.sv.run" "$pkgdir/etc/sv/klog/run"
-  install -D -m755 "$srcdir/socklog.sv.check" "$pkgdir/etc/sv/socklog/check"
-  install -D -m755 "$srcdir/socklog.sv.logrun" "$pkgdir/etc/sv/socklog/log/run"
-  install -D -m755 "$srcdir/socklog.sv.run" "$pkgdir/etc/sv/socklog/run"
+  install -D -m755 "$srcdir/klog.sv.run" "$pkgdir/etc/runit/sv/klog/run"
+  install -D -m755 "$srcdir/socklog.sv.check" "$pkgdir/etc/runit/sv/socklog/check"
+  install -D -m755 "$srcdir/socklog.sv.logrun" "$pkgdir/etc/runit/sv/socklog/log/run"
+  install -D -m755 "$srcdir/socklog.sv.run" "$pkgdir/etc/runit/sv/socklog/run"
 
   msg 'Installing default socklog configs...'
   for file in cron daemon debug errors everything lpr mail messages \
