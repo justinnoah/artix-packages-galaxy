@@ -1,0 +1,38 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Giovanni Scafora <giovanni@archlinux.org>
+# Contributor: Alex <mail.avatar@gmail.com>
+
+pkgname=exfat-utils
+pkgver=1.2.8
+pkgrel=1
+pkgdesc='Utilities for exFAT file system'
+url='https://github.com/relan/exfat'
+arch=('x86_64')
+license=('GPL2')
+depends=('glibc' 'fuse2')
+conflicts=('fuse-exfat')
+provides=('fuse-exfat')
+replaces=('fuse-exfat')
+source=(${pkgname}-${pkgver}.tar.gz::https://github.com/relan/exfat/archive/v${pkgver}.tar.gz)
+sha512sums=('2805d8a59c53db348265943bfd5537aa1dfc87582fb1a3e9cba6ab112b93632be3c0932f72b57c7839d60faf1d455f56fd7d7a7f49e3e9419f4b6715332e939a')
+
+prepare() {
+  cd exfat-${pkgver}
+  autoreconf -fiv
+}
+
+build() {
+  cd exfat-${pkgver}
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin
+  make CCFLAGS="${CFLAGS} ${CPPFLAGS} -std=c99" LINKFLAGS="${LDFLAGS}"
+}
+
+package() {
+  cd exfat-${pkgver}
+  make DESTDIR="${pkgdir}" install
+  install -Dm 644 */*.8 -t "${pkgdir}/usr/share/man/man8"
+}
+
+# vim: ts=2 sw=2 et:
