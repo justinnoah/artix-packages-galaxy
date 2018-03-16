@@ -19,7 +19,7 @@ source=("https://github.com/google/fonts/raw/${_gitver}/ofl/inconsolata/Inconsol
 sha1sums=('3de268caaee19809b2b24589ca5c65ee027397e0'
           '01e452f6f6004868daf0c4904ea31b92fe8e934c'
           '532a1523da8c698fe7c51f39388df5db69e682ac'
-          'd94e734f93591028bcee1e82cc273309f8f96737'
+          '14dcfed03b7e84eb4b2b32c192942c92ca19d66b'
           '27cf0d59c91fd9ff2fb72de9d7ee5082a46a1792')
 
 
