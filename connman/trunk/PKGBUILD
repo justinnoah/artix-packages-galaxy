@@ -53,5 +53,5 @@ package() {
   make -C "${pkgname}-${pkgver}" DESTDIR="${pkgdir}" install
   install -Dm755 "${srcdir}/${pkgname}-${pkgver}/client/${pkgname}ctl" "${pkgdir}/usr/bin/${pkgname}ctl"
 
-  rm -r "${pkgdir}"/usr/lib/tmpfiles.d
+  #rm -r "${pkgdir}"/usr/lib/tmpfiles.d
 }
