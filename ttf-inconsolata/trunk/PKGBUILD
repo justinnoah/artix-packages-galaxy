@@ -14,18 +14,17 @@ _gitver='efcbdc5d' #93ada0d4f9fa83389aba7cdbc797606f'
 source=("https://github.com/google/fonts/raw/${_gitver}/ofl/inconsolata/Inconsolata-Bold.ttf"
         "https://github.com/google/fonts/raw/${_gitver}/ofl/inconsolata/Inconsolata-Regular.ttf"
         "https://raw.githubusercontent.com/google/fonts/${_gitver}/ofl/inconsolata/OFL.txt"
-        "https://github.com/google/fonts/blob/${_gitver}/ofl/inconsolata/FONTLOG.txt"
+#         "https://github.com/google/fonts/blob/${_gitver}/ofl/inconsolata/FONTLOG.txt"
         '75-ttf-inconsolata.conf')
 
 package() {
   install -d "${pkgdir}/usr/share/fonts/TTF"
   install -Dm644 "${srcdir}"/*.ttf "${pkgdir}/usr/share/fonts/TTF"
   install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/OFL.txt"
-  install -Dm644 "${srcdir}/FONTLOG.txt" "${pkgdir}/usr/share/doc/${pkgname}/FONTLOG.txt"
+#   install -Dm644 "${srcdir}/FONTLOG.txt" "${pkgdir}/usr/share/doc/${pkgname}/FONTLOG.txt"
   install -Dm644 "${srcdir}/75-ttf-inconsolata.conf" "${pkgdir}/etc/fonts/conf.avail/75-ttf-inconsolata.conf"
 }
 sha256sums=('76a242626e1c791b6945060d7a61b5b61f6f1c6b364b6c7868a30af1ef44b623'
             '2a53b53d55363c4913a8873d0e1636d6c09d8a3c38570fb166fc71a5123ec8dc'
             '29bd0cfd0fb2a45f9b057c834a057724bae1f63b525a8ac83d3e7525706d9f80'
-            'eafbe5a7d11359dde3ccf7bc3d88538da0f9d2bc7664a4d40cb3d2af70bda8b6'
             'f29a1b45c96ee05e64c03181b587f48a5d090839b7356eb4f48fb752a17a899f')
