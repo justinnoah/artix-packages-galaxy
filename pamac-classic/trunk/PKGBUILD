@@ -2,7 +2,7 @@
 
 pkgname=pamac-classic
 pkgver=6.6.4
-pkgrel=2
+pkgrel=3
 pkgdesc="A Gtk3 frontend for libalpm"
 arch=('i686' 'x86_64')
 url="https://github.com/cromnix/pamac-classic"
@@ -31,8 +31,7 @@ build() {
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
 		-DCMAKE_INSTALL_SYSCONFDIR=/etc \
-		-DICON_UPDATE=OFF \
-		-DDISABLE_AUR=ON
+		-DICON_UPDATE=OFF
 	make
 }
 
