@@ -6,7 +6,7 @@ _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g' -e 's|/opt/bin|/us
 
 pkgname='apcupsd-runit'
 pkgver=20180314
-pkgrel=3
+pkgrel=4
 pkgdesc="Runit service script for apcupsd"
 arch=('any')
 url="https://github.com/artix-linux"
