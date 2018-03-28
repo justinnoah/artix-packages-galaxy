@@ -44,7 +44,7 @@ _inst_sv() {
 }
 
 package() {
-    sed -e 's|socklog-unix|socklog' \
+    sed -e 's|socklog-unix|socklog|g' \
         -i "$srcdir/sshguard-socklog.run"
 
     _inst_sv 'sshguard-socklog'
