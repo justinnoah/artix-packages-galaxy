@@ -18,8 +18,8 @@ groups=('runit-galaxy')
 provides=('toxcore-runscripts')
 replaces=('toxcore-runscripts')
 conflicts=('systemd-sysvcompat')
-source=("toxbootstrapd.run::${_url}/toxcore/files/toxbootstrapd/run")
-sha256sums=('0a453a13383d6a57a94a7c221e376e2599f833ac6935752591aa04610ba2015b')
+source=("toxbootstrapd.run")
+sha256sums=('15ed2f156f469f688764a2a491750e55edf90bf3a8611af46d1a531a2728b694')
 
 _inst_logsv() {
     for file in run finish check; do
