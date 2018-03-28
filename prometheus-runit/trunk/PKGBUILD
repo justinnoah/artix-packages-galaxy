@@ -44,7 +44,6 @@ _inst_sv() {
 }
 
 package() {
+    sed -e 's|_prometheus|prometheus|g' -i "$srcdir/prometheus.run"
     _inst_sv 'prometheus'
-    sed -e 's|_prometheus|prometheus|g' \
-        -i  '${pkgdir}/etc/runit/sv/prometheus/run'
 }
