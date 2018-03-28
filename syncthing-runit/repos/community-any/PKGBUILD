@@ -46,8 +46,7 @@ _inst_sv() {
 }
 
 package() {
+    sed -e 's|-u relaysrv|-u syncthing-relaysrv|g' -i "$srcdir/relaysrv.run"
     _inst_sv 'relaysrv'
     _inst_logsv 'relaysrv'
-
-    sed -e 's|-u relaysrv|-u syncthing-relaysrv|g' -i '$pkgdir/etc/runit/sv/relaysrv/run'
 }
