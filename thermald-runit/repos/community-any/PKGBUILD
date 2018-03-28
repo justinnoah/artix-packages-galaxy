@@ -6,7 +6,7 @@ _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g' -e 's|/opt/bin|/us
 
 pkgname='thermald-runit'
 pkgver=20180314
-pkgrel=2
+pkgrel=2 # rebuild
 pkgdesc="Runit service script for thermald"
 arch=('any')
 url="https://github.com/artix-linux"
