@@ -19,7 +19,6 @@ source=("git+https://github.com/grafana/grafana.git#tag=v$pkgver"
        )
 install=$pkgname.install
 md5sums=('SKIP'
-         '2f1d73689923ecee92a102a65b91003a'
          'e991d8cdf91c1e25652cdbc51fc726c5'
          'b9b576d1959fc063b3399892e201488c')
 
