@@ -5,13 +5,13 @@
 
 pkgname=autofs
 pkgver=5.1.4
-pkgrel=1
+pkgrel=1.1
 pkgdesc='A kernel-based automounter for Linux.'
 arch=('x86_64')
 url='https://www.kernel.org/pub/linux/daemons/autofs/'
 license=('GPL2')
 depends=('libxml2')
-makedepends=('libldap' 'krb5' 'kmod' 'sssd' '')
+makedepends=('libldap' 'krb5' 'kmod' 'sssd')
 optdepends=('krb5: for LDAP support'
             'sssd: for SSSD integration')
 backup=('etc/autofs/auto.master'
@@ -48,5 +48,6 @@ package() {
 
   make INSTALLROOT="${pkgdir}" install
   rm -r "$pkgdir/run"
+  rm -r "$pkgdir/etc/init.d"
   install -dm755 "$pkgdir/etc/autofs/auto.master.d"
 }
