@@ -14,10 +14,15 @@ $ buildtree -h
 Usage: buildtree [options]
     -p <pkg>      Package name
     -s            Clone or pull repos
-    -i            Import from arch packages
-    -j            Import from arch community
-    -a            Import arch packages
+    -z            Don't clone or pull arch repos
     -c            Compare packages
+    -x            Include unstable kde and gnome
+    -u            Show upgrade packages
+    -d            Show downgrade packages
+    -a            Show testing and staging packages
+    -i            Import a package from arch repos
+    -t            Import from arch trunk
+    -v            View package depends
     -q            Query settings
     -h            This help
 ~~~
@@ -27,9 +32,17 @@ To sync(clone or pull) the arch and artix git repos, run
 
     buildtree -s
 
-To compare arch and artix repo versions, run
+To compare arch and artix repo versions, check updates, run
 
-    buildtree -c
+    buildtree -cu
+
+To compare arch and artix repo versions, check downgrades, run
+
+    buildtree -cd
+
+To compare arch and artix repo versions, check for package move, run
+
+    buildtree -ca
 
 It will show a version comparison table between arch repos and artix repos.
 The first repository column shows the archlinux repos the package is in.
@@ -38,17 +51,14 @@ To import package 'foo' from arch packages into artix foo/trunk, run
 
     buildtree -p foo -i
 
-To import package 'foo' from arch community into artix foo2/trunk, run
-
-    buildtree -p foo2 -j
-
 In order to manage packages in the git tree, commitpkg standardizes the actions with descriptive commit messages.
 
 ~~~
 $ commitpkg -h
-Usage: testingpkg [options]
-    -s <name>          Source repository [default:staging]
+Usage: commitpkg [options]
+    -s <name>          Source repository [default:trunk]
     -p <pkg>           Package name
+    -r                 Delete from repo (commitpkg only)
     -u                 Push
     -q                 Query settings and pretend
     -h                 This help
@@ -109,9 +119,10 @@ move packages 'foo4' from repos/multilib-testing-x86_64 to repos/multilib-x86_64
 
 * Any repo moving operation of a package in git will trigger Add and Remove stages.
 * Any new repos subdirectory will trigger the Build stage.
+* The trunk dir will only trigger a checkout, modifications won't be built.
 
 ### Contributors
 
-If you want a new or updated package merged into the git repository, please send a Pull Request with only the trunk of a given package. Do not send PRs containing repos/$repo folders.
+If you want a new or updated package merged into the git repository, please send a Pull Request with only the trunk of a given package. Please do not send PRs containing repos/$repo folders.
 
 
