@@ -1,57 +1,66 @@
-# Maintainer: Muhammad Herdiansyah <koni@artixlinux.org>
-# Contributor: Adrián Laviós <adrian@lavios.eu>
+# $Id$
+# Maintainer: David Runge <dave@sleepmap.de>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Techlive Zheng <techlivezheng at gmail dot com>
+# Contributor: peace4all <markspost at rocketmail dot com>
+
 pkgname=dnscrypt-proxy
 pkgver=2.0.8
-pkgrel=1
-pkgdesc="A modern client implementation written in Go of the DNSCrypt v2 protocol."
+pkgrel=2
+pkgdesc="A flexible DNS proxy, with support for modern encrypted DNS protocols such as DNSCrypt v2 and DNS-over-HTTP/2."
 arch=('x86_64')
-url="https://github.com/jedisct1/dnscrypt-proxy"
+url="https://dnscrypt.info"
 license=('custom:ISC')
+depends=('glibc')
 makedepends=('git' 'go')
-install="dnscrypt-proxy.install"
-backup=('etc/dnscrypt-proxy/dnscrypt-proxy.toml')
-source=("https://github.com/jedisct1/dnscrypt-proxy/archive/${pkgver}.tar.gz")
-sha512sums=('c7e7d5d72fa6874b2b6b4deaaf6c80e4a2e812670b71bf7a308535a5773e84e249263bbb66d18fb844d8e440703facb0902f3872b117433582696695cb5a7265')
+install="${pkgname}.install"
+backup=("etc/${pkgname}/${pkgname}.toml"
+        "etc/${pkgname}/blacklist.txt"
+        "etc/${pkgname}/cloaking-rules.txt"
+        "etc/${pkgname}/forwarding-rules.txt"
+        "etc/${pkgname}/ip-blacklist.txt"
+)
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/jedisct1/${pkgname}/archive/${pkgver}.tar.gz"
+        'configuration.diff')
+sha512sums=('c7e7d5d72fa6874b2b6b4deaaf6c80e4a2e812670b71bf7a308535a5773e84e249263bbb66d18fb844d8e440703facb0902f3872b117433582696695cb5a7265'
+            '2206b71aa05d81c962f6a93d837731946aacbcc36ee19320a9cdf379c105d04f97044be702ac83e96492ece358148227ef04ed45d17e54dd4b84f5b4d66575bf')
 
 prepare() {
-  cd "$srcdir/dnscrypt-proxy-${pkgver}/dnscrypt-proxy"
-  sed -i 's|\['\''127\.0\.0\.1:53'\'', '\''\[::1\]:53'\''\]|\[\]|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''dnscrypt-proxy\.log'\''|'\''/var/log/dnscrypt-proxy/dnscrypt-proxy\.log'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''forwarding-rules\.txt'\''|'\''/etc/dnscrypt-proxy/forwarding-rules\.txt'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''cloaking-rules\.txt'\''|'\''/etc/dnscrypt-proxy/cloaking-rules\.txt'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''query\.log'\''|'\''/var/log/dnscrypt-proxy/query\.log'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''nx\.log'\''|'\''/var/log/dnscrypt-proxy/nx\.log'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''blacklist\.txt'\''|'\''/etc/dnscrypt-proxy/blacklist\.txt'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''blocked\.log'\''|'\''/var/log/dnscrypt-proxy/blocked\.log'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''ip-blacklist\.txt'\''|'\''/etc/dnscrypt-proxy/ip-blacklist\.txt'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''ip-blocked\.log'\''|'\''/var/log/dnscrypt-proxy/ip-blocked\.log'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''public-resolvers\.md'\''|'\''/var/cache/dnscrypt-proxy/public-resolvers\.md'\''|g' example-dnscrypt-proxy.toml
-  sed -i 's|'\''parental-control\.md'\''|'\''/var/cache/dnscrypt-proxy/parental-control\.md'\''|g' example-dnscrypt-proxy.toml
+  cd "$pkgname-$pkgver"
+  patch -Np1 -i ../configuration.diff
+  # create empty ip-blacklist.txt
+  touch "${pkgname}/ip-blacklist.txt"
+  # set GOPATH
+  export GOPATH=`pwd`
+  # symlink upstream's vendor to src
+  ln -sfv vendor src
 }
 
 build() {
-  msg2 'Setting gopath...'
-  mkdir -p "$srcdir/gopath"
-  export GOPATH="$srcdir/gopath"
-
-  msg2 'Setting build environment...'
-  mkdir -p "${GOPATH}/src/github.com/jedisct1"
-  ln -sfn "$srcdir/dnscrypt-proxy-${pkgver}" "${GOPATH}/src/github.com/jedisct1/dnscrypt-proxy"
-
-  msg2 'Compiling...'
-  cd "${GOPATH}/src/github.com/jedisct1/dnscrypt-proxy/dnscrypt-proxy"
+  cd "$pkgname-$pkgver/${pkgname}"
   go build -ldflags="-s -w"
 }
 
 package() {
-  cd "$srcdir/dnscrypt-proxy-${pkgver}/dnscrypt-proxy"
-  install -Dm755 "dnscrypt-proxy" "$pkgdir/usr/bin/dnscrypt-proxy"
-  install -Dm644 "example-dnscrypt-proxy.toml" "$pkgdir/etc/dnscrypt-proxy/dnscrypt-proxy.toml"
-  install -Dm644 "example-forwarding-rules.txt" "$pkgdir/usr/share/doc/dnscrypt-proxy/example-forwarding-rules.txt"
-  install -Dm644 "example-blacklist.txt" "$pkgdir/usr/share/doc/dnscrypt-proxy/example-blacklist.txt"
-  install -Dm644 "example-cloaking-rules.txt" "$pkgdir/usr/share/doc/dnscrypt-proxy/example-cloaking-rules.txt"
+  cd $pkgname-$pkgver
+  # executable
+  install -vDm 755 "${pkgname}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  # configuration
+  install -vDm 644 "${pkgname}/example-${pkgname}.toml" \
+    "${pkgdir}/etc/${pkgname}/${pkgname}.toml"
+  install -vDm 644 "${pkgname}/example-blacklist.txt" \
+    "${pkgdir}/etc/${pkgname}/blacklist.txt"
+  install -vDm 644 "${pkgname}/example-cloaking-rules.txt" \
+    "${pkgdir}/etc/${pkgname}/cloaking-rules.txt"
+  install -vDm 644 "${pkgname}/example-forwarding-rules.txt" \
+    "${pkgdir}/etc/${pkgname}/forwarding-rules.txt"
+  install -vDm 644 "${pkgname}/ip-blacklist.txt" \
+    "${pkgdir}/etc/${pkgname}/ip-blacklist.txt"
 
-  install -Dm644 "../LICENSE" "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+  # license
+  install -vDm 644 LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+  # docs
+  install -vDm 644 {ChangeLog,README.md} \
+    -t "$pkgdir/usr/share/doc/${pkgname}"
 }
-
 # vim:set ts=2 sw=2 et:

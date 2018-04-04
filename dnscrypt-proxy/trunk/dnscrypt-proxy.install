@@ -1,12 +1,7 @@
-post_install() {
-    useradd -r -N -d /var/empty -s /sbin/nologin dnscrypt
-}
-
-post_remove() {
-    userdel dnscrypt
-}
-
 post_upgrade() {
-    echo -e "\033[1m==>\033[0m dnscrypt-proxy v2+ are rewritten in Golang by upstream. Previous"
-    echo -e "\033[1m==>\033[0m configuration WILL break. Please update your configurations."
+  if [ "$(vercmp $2 1.9.5-1)" -le 0 ]
+  then
+    echo 'The configuration file(s) and setup of dnscrypt-proxy has changed considerably since version 1.x.'
+    echo 'Please refer to the new upstream information for help!'
+  fi
 }
