@@ -5,14 +5,14 @@ _repo=desktop-presets
 
 pkgbase=artix-artwork
 pkgname=('artix-icons' 'artix-backgrounds')
-pkgver=0.6.1
-pkgrel=2
+pkgver=0.7
+pkgrel=1
 arch=('any')
 url="https://github.com/artix-linux/desktop-presets"
 license=('GPL')
 makedepends=('git')
 source=("${_repo}-${pkgver}.tar.gz::$url/archive/${pkgver}.tar.gz")
-sha256sums=('9ac7d9e5d112702eecde79b9ec960dee9a41e6c4a465c9ea32da26c80b3a2ec4')
+sha256sums=('209b10e5aa4b943b749f3e453ff04e0c7d8bc7c92aac4ea804b6f37f822c443e')
 
 package_artix-backgrounds(){
     pkgdesc='Artix backgrounds'
