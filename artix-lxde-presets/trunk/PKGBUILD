@@ -1,0 +1,40 @@
+# Maintainer: artoo <artoo@cromnix.org>
+# Contributor: Philip Müller <philm[at]manjaro[dog]org>
+
+_pkgbase=desktop-presets
+
+pkgname='artix-lxde-presets'
+pkgver=0.7
+pkgrel=1
+pkgdesc='Artix lxde presets'
+arch=('any')
+url="https://github.com/artix-linux/desktop-presets"
+license=('GPL')
+provides=('desktop-presets')
+depends=('artix-backgrounds'
+        'artix-icons')
+makedepends=('git')
+source=("${_pkgbase}-${pkgver}.tar.gz::$url/archive/${pkgver}.tar.gz")
+sha256sums=('209b10e5aa4b943b749f3e453ff04e0c7d8bc7c92aac4ea804b6f37f822c443e')
+
+_inst_dir(){
+    cd ${_pkgbase}-${pkgver}
+    local profile="$1"
+
+    install -d ${pkgdir}/etc
+    cp -r $profile/skel ${pkgdir}/etc
+
+    if [[ -d $profile/schemas ]];then
+        install -d ${pkgdir}/usr/share/glib-2.0/schemas
+        cp -r $profile/schemas ${pkgdir}/usr/share/glib-2.0/schemas
+    fi
+
+    if [[ -d $profile/scripts ]];then
+        install -d ${pkgdir}/usr/bin
+        cp -r $profile/scripts ${pkgdir}/usr/bin
+    fi
+}
+
+package_artix-lxde-presets() {
+    _inst_dir 'lxde'
+}
