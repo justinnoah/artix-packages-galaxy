@@ -1,4 +1,0 @@
-#!/bin/sh
-modprobe vboxguest
-modprobe vboxsf
-exec VBoxService -f
