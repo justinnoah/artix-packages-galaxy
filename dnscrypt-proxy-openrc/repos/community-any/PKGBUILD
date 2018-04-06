@@ -5,7 +5,7 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 pkgname=dnscrypt-proxy-openrc
-pkgver=20180312
+pkgver=20180330
 pkgrel=1
 pkgdesc="OpenRC dnscrypt-proxy init script"
 arch=('any')
@@ -14,10 +14,10 @@ license=('GPL2')
 groups=('openrc-galaxy')
 depends=('openrc' 'dnscrypt-proxy')
 conflicts=('systemd-sysvcompat')
-source=("dnscrypt-proxy.confd::${_url}/net-dns/dnscrypt-proxy/files/dnscrypt-proxy.confd-r1"
-        "dnscrypt-proxy.initd::${_url}/net-dns/dnscrypt-proxy/files/dnscrypt-proxy.initd-r1")
-sha256sums=('38ef436a17975031974166b32fe98ccb78e13c901a753d0e1af5c73b8e1831be'
-            'f7dd88344479ebaa945eb9f01f14649e71ebfdba1ac56eeed7a46ea6c43c1f0a')
+source=("dnscrypt-proxy.confd::${_url}/net-dns/dnscrypt-proxy/files/dnscrypt-proxy.confd-r2"
+        "dnscrypt-proxy.initd::${_url}/net-dns/dnscrypt-proxy/files/dnscrypt-proxy.initd-r2")
+sha256sums=('1373533ebac281a2cfc011253b02c4bbb8bf75fcb12e59d9d500d2ee7ebd0a88'
+            '98dfb23e6db1384ba30527506ce535f4bcaec5ba10f4496e21fbdf63ca000901')
 
 # pkgver() {
 # 	date +%Y%m%d
