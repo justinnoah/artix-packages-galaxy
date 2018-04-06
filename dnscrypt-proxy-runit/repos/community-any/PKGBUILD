@@ -5,7 +5,7 @@ _url="https://github.com/voidlinux/void-packages/raw/master/srcpkgs"
 _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g' -e 's|/opt/bin|/usr/bin|g' -e 's|/var/service|/run/runit/service|g' -e 's|/usr/libexec|/usr/lib|g')
 
 pkgname="dnscrypt-proxy-runit"
-pkgver=20180330
+pkgver=20180406
 pkgrel=1
 pkgdesc="runit service scripts for dnscrypt-proxy"
 arch=('any')
@@ -49,4 +49,7 @@ package() {
 
     sed -e 's|dnscrypt_proxy|dnscrypt|g' \
         -i "${pkgdir}/etc/runit/sv/dnscrypt-proxy/log/run"
+
+    sed -e 's|/etc/dnscrypt-proxy.toml|/etc/dnscrypt-proxy/dnscrypt-proxy.toml|g' \
+        -i "${pkgdir}/etc/runit/sv/dnscrypt-proxy/run"
 }
