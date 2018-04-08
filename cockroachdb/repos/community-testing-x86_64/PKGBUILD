@@ -38,7 +38,7 @@ package_cockroachdb-core() {
 
 	cd "cockroach-v${pkgver}"
 	install -Dm755 src/github.com/cockroachdb/cockroach/cockroach "$pkgdir"/usr/bin/cockroach
-	install -Dm644 src/github.com/cockroachdb/cockroach/APL.txt "$pkgdir"/usr/share/licenses/$pkgbase/LICENSE
+	install -Dm644 src/github.com/cockroachdb/cockroach/licenses/APL.txt "$pkgdir"/usr/share/licenses/$pkgbase/LICENSE
 }
 
 package_cockroachdb-enterprise() {
