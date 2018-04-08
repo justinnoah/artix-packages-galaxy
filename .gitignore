@@ -13,3 +13,5 @@ iptables-flush
 *.log
 *-i686
 *.socket
+src/
+pkg/
