@@ -13,7 +13,7 @@ url="https://www.cockroachlabs.com/product/cockroachdb-core/"
 depends=('gcc-libs>=6.0')
 makedepends=('go' 'cmake' 'autoconf')
 source=("https://binaries.cockroachdb.com/cockroach-v$pkgver.src.tgz")
-md5sums=('38dcfec637bf4e2aa8d83522ea2a6301')
+md5sums=('a6a5507e1a441e2b7bc8060403a5b7d0')
 
 prepare() {
 	cp -ra "cockroach-v${pkgver}"{,-enterprise}
