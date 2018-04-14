@@ -6,7 +6,7 @@ _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g' -e 's|/opt/bin|/us
 
 pkgname='acpid-runit'
 pkgver=20180314
-pkgrel=2
+pkgrel=3
 pkgdesc="Runit service script for acpid"
 arch=('any')
 url="https://github.com/artix-linux"
@@ -18,8 +18,8 @@ groups=('runit-galaxy')
 provides=('acpid-runscripts')
 replaces=('acpid-runscripts')
 conflicts=('systemd-sysvcompat')
-source=("acpid.run::${_url}/acpid/files/acpid/run")
-sha256sums=('a1ea4a9c341a8a9891b20c89b9a404b87a0508c8585e39b1a9e96873823a3809')
+source=("acpid.run")
+sha256sums=('6d2bdd367f695da24d993d62293a1f8ab4d6d9d13144d3154a436a09e4864c76')
 
 _inst_logsv() {
     for file in run finish check; do
