@@ -2,7 +2,7 @@
 
 pkgname=calamares
 pkgver=3.1.13
-pkgrel=2
+pkgrel=3
 pkgdesc='Distribution-independent installer framework'
 arch=('i686' 'x86_64')
 license=(GPL)
@@ -12,6 +12,7 @@ depends=('kconfig' 'kcoreaddons' 'ki18n' 'solid' 'yaml-cpp' 'kpmcore>=3.1.0'
          'boost-libs' 'hwinfo' 'qt5-svg' 'polkit-qt5' 'gtk-update-icon-cache'
          'pythonqt' 'kiconthemes' 'kio' 'plasma-framework')
 makedepends=('extra-cmake-modules' 'qt5-tools' 'qt5-translations' 'boost')
+optdepends=('calamares-branding: Artix branding')
 source=("${url}/archive/v$pkgver.tar.gz"
         "artix-data.patch::https://github.com/artix-linux/calamares/commit/64bbc22ca6c358917ef1ef1cbc4f121494b935d0.patch"
         "servicescfg.patch::https://github.com/artix-linux/calamares/commit/2ad241a0717836ac406fff51ac7bfb14aaa2ff14.patch"
