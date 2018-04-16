@@ -150,7 +150,7 @@ pipeline {
                                     RM_REPO = 'galaxy-gremlins'
                                 }
 
-                                if ( repoName1.contains('community-testing') && repoName2.contains('community-x86_64') || repoName1.contains('community-any') ) {
+                                if ( repoName1.contains('community-testing') && repoName2.contains('community-x86_64') || repoName2.contains('community-any') ) {
                                     ADD_REPO = 'galaxy-gremlins'
                                     RM_REPO = 'galaxy'
                                 } else if ( repoName1.contains('community-x86_64') || repoName1.contains('community-any') && repoName2.contains('community-testing') ) {
