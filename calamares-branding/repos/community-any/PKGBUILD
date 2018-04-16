@@ -2,7 +2,7 @@
 
 pkgname=calamares-branding
 pkgver=0.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Distribution-independent installer framework branding'
 arch=('any')
 license=(GPL)
