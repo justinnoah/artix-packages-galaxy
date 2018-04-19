@@ -6,14 +6,14 @@ pkgname=(
 	'cockroachdb-enterprise'
 )
 pkgdesc="Distributed and resilient SQL database built on a transactional and strongly-consistent key-value store"
-pkgver=1.1.4
+pkgver=2.0.0
 pkgrel=1
 arch=('x86_64')
 url="https://www.cockroachlabs.com/product/cockroachdb-core/"
 depends=('gcc-libs>=6.0')
 makedepends=('go' 'cmake' 'autoconf')
 source=("https://binaries.cockroachdb.com/cockroach-v$pkgver.src.tgz")
-md5sums=('38dcfec637bf4e2aa8d83522ea2a6301')
+md5sums=('a6a5507e1a441e2b7bc8060403a5b7d0')
 
 prepare() {
 	cp -ra "cockroach-v${pkgver}"{,-enterprise}
@@ -38,7 +38,7 @@ package_cockroachdb-core() {
 
 	cd "cockroach-v${pkgver}"
 	install -Dm755 src/github.com/cockroachdb/cockroach/cockroach "$pkgdir"/usr/bin/cockroach
-	install -Dm644 src/github.com/cockroachdb/cockroach/APL.txt "$pkgdir"/usr/share/licenses/$pkgbase/LICENSE
+	install -Dm644 src/github.com/cockroachdb/cockroach/licenses/APL.txt "$pkgdir"/usr/share/licenses/$pkgbase/LICENSE
 }
 
 package_cockroachdb-enterprise() {
