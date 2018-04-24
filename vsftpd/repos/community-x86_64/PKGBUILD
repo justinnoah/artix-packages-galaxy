@@ -1,52 +1,54 @@
-# $Id$
-# Maintainer:  Jonathan Steel <jsteel at archlinux.org>
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Jonathan Steel <jsteel at archlinux.org>
 # Contributor: Bartłomiej Piotrowski <nospam@bpiotrowski.pl>
 # Contributor: Andreas Radke <andyrtr@archlinux.org>
 # Contributor: judd <jvinet@zeroflux.org>
 
 pkgname=vsftpd
 pkgver=3.0.3
-pkgrel=3
-pkgdesc="Very Secure FTP daemon"
+pkgrel=4
+pkgdesc='Very Secure FTP daemon'
+url='https://security.appspot.com/vsftpd.html'
 arch=('x86_64')
-url="https://security.appspot.com/vsftpd.html"
 license=('GPL2')
-depends=('libcap' 'pam')
+depends=('glibc' 'openssl' 'libcap' 'pam' 'libnsl')
 optdepends=('logrotate')
-backup=('etc/vsftpd.conf' 'etc/xinetd.d/vsftpd' "etc/logrotate.d/$pkgname")
-source=(https://security.appspot.com/downloads/$pkgname-$pkgver.tar.gz{,.asc})
-md5sums=('da119d084bd3f98664636ea05b5bb398'
-         'SKIP')
+backup=('etc/vsftpd.conf'
+        'etc/xinetd.d/vsftpd'
+        "etc/logrotate.d/${pkgname}")
+source=(https://security.appspot.com/downloads/${pkgname}-${pkgver}.tar.gz{,.asc})
+sha256sums=('9d4d2bf6e6e2884852ba4e69e157a2cecd68c5a7635d66a3a8cf8d898c955ef7'
+            'SKIP')
 validpgpkeys=('8660FD3291B184CDBC2F6418AA62EC463C0E751C') # Chris Evans
 
-build() {
-  cd $pkgname-$pkgver
-
+prepare() {
+  cd ${pkgname}-${pkgver}
   # build-time config
-  sed \
-    -e 's|^#undef VSF_BUILD_SSL$|#define VSF_BUILD_SSL|' \
-    -i builddefs.h
+  sed -e 's|^#undef VSF_BUILD_SSL$|#define VSF_BUILD_SSL|' -i builddefs.h
+  sed -e 's|/usr/share/empty|/var/empty|g' -i tunables.c vsftpd.conf.5 INSTALL
 
   # fix linking to openssl 1.1
   sed -e 's|SSL_library_init|SSL_CTX_new|' -i vsf_findlibs.sh
+}
 
-  CFLAGS+=' -fPIE' LINK='' LDFLAGS="-fPIE -pie ${LDFLAGS} -Wl,-z,now" make
+build() {
+  cd ${pkgname}-${pkgver}
+  make LINK='' CFLAGS="${CFLAGS} ${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 }
 
 package() {
-  cd $pkgname-$pkgver
+  cd ${pkgname}-${pkgver}
 
-  install -D -m755 $pkgname "$pkgdir"/usr/bin/$pkgname
-  install -D -m644 $pkgname.conf "$pkgdir"/etc/$pkgname.conf
-  install -D -m644 $pkgname.8 "$pkgdir"/usr/share/man/man8/$pkgname.8
-  install -D -m644 $pkgname.conf.5 "$pkgdir"/usr/share/man/man5/$pkgname.conf.5
-  install -D -m644 EXAMPLE/INTERNET_SITE/$pkgname.xinetd "$pkgdir"/etc/xinetd.d/$pkgname
-  install -D -m644 RedHat/$pkgname.log "$pkgdir"/etc/logrotate.d/$pkgname
+  install -Dm 755 ${pkgname} -t "${pkgdir}/usr/bin"
+  install -Dm 644 ${pkgname}.conf -t "${pkgdir}/etc"
+  install -Dm 644 ${pkgname}.8 -t "${pkgdir}/usr/share/man/man8"
+  install -Dm 644 ${pkgname}.conf.5 -t "${pkgdir}/usr/share/man/man5"
+  install -Dm 644 EXAMPLE/INTERNET_SITE/${pkgname}.xinetd "${pkgdir}/etc/xinetd.d/${pkgname}"
+  install -Dm 644 RedHat/${pkgname}.log "${pkgdir}/etc/logrotate.d/${pkgname}"
 
-  install -d -m755 "$pkgdir"/usr/share/empty
-
-  for i in BENCHMARKS BUGS Changelog FAQ INSTALL README README.ssl REFS \
-           REWARD SPEED TODO TUNING; do
-    install -Dm644 $i "$pkgdir"/usr/share/doc/$pkgname/$i
-  done
+  install -dm 755 "${pkgdir}/var/empty"
+  install -Dm 644 BENCHMARKS BUGS Changelog FAQ INSTALL README README.ssl REFS \
+           REWARD SPEED TODO TUNING -t "${pkgdir}/usr/share/doc/${pkgname}"
 }
+
+# vim: ts=2 sw=2 et:
