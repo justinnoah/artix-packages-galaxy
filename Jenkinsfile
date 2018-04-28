@@ -146,13 +146,13 @@ pipeline {
                                     ADD_REPO = 'galaxy-gremlins'
                                     RM_REPO = 'galaxy-goblins'
                                 } else if ( repoName1.contains('community-testing') && repoName2.contains('community-staging') ) {
-                                    ADD_REPO = 'galaxy-goblins'
-                                    RM_REPO = 'galaxy-gremlins'
+                                    ADD_REPO = 'galaxy-gremlins'
+                                    RM_REPO = 'galaxy-goblins'
                                 }
 
                                 if ( repoName1.contains('community-testing') && repoName2.contains('community-x86_64') || repoName2.contains('community-any') ) {
-                                    ADD_REPO = 'galaxy-gremlins'
-                                    RM_REPO = 'galaxy'
+                                    ADD_REPO = 'galaxy'
+                                    RM_REPO = 'galaxy-gremlins'
                                 } else if ( repoName1.contains('community-x86_64') || repoName1.contains('community-any') && repoName2.contains('community-testing') ) {
                                     ADD_REPO = 'galaxy'
                                     RM_REPO = 'galaxy-gremlins'
@@ -162,16 +162,16 @@ pipeline {
                                     ADD_REPO = 'lib32-gremlins'
                                     RM_REPO = 'lib32-goblins'
                                 } else if ( repoName1.contains('multilib-testing') && repoName2.contains('multilib-staging') ) {
-                                    ADD_REPO = 'lib32-goblins'
-                                    RM_REPO = 'lib32-gremlins'
+                                    ADD_REPO = 'lib32-gremlins'
+                                    RM_REPO = 'lib32-goblins'
                                 }
 
                                 if ( repoName1.contains('multilib-testing') && repoName2.contains('multilib-x86_64') ) {
                                     ADD_REPO = 'lib32'
                                     RM_REPO = 'lib32-gremlins'
                                 } else if ( repoName1.contains('multilib-x86_64') && repoName2.contains('multilib-testing') ) {
-                                    ADD_REPO = 'lib32-gremlins'
-                                    RM_REPO = 'lib32'
+                                    ADD_REPO = 'lib32'
+                                    RM_REPO = 'lib32-gremlins'
                                 }
                             }
                             PKG_TRUNK = buildInfo1[0] + '/trunk'
