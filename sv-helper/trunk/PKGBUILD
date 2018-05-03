@@ -14,6 +14,7 @@ package() {
 	cd "$pkgname-$pkgver"
 
 	# patch to use artix dirs
+	sed -e 's|/etc/sv|/etc/runit/sv|g' -i sv-helper.sh
 	sed -e 's|/var/service|/run/runit/service|g' -i sv-helper.sh
 
 	# bins
