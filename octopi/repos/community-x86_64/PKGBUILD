@@ -1,9 +1,9 @@
 # Maintainer: Jameson Pugh <imntreal@gmail.com>
 
 pkgbase=octopi
-pkgname=('octopi' 'octopi-pacmanhelper' 'octopi-notifier-qt5' 'octopi-notifier-frameworks' 'octopi-repoeditor' 'octopi-cachecleaner')
+pkgname=('octopi' 'octopi-pacmanhelper' 'octopi-notifier-frameworks' 'octopi-repoeditor' 'octopi-cachecleaner')
 pkgver=0.8.5
-pkgrel=3
+pkgrel=4
 # This is the release package so the below _gitcommit variable should (usually) be commented out.
 _gitcommit="52e111f5ab53b5b60ac06ca1cd47c70e0aced435"
 pkgdesc="a powerful Pacman frontend using Qt libs"
@@ -13,13 +13,16 @@ license=('GPL2')
 makedepends=('qt5-declarative' 'git' 'knotifications' 'alpm_octopi_utils' 'qtermwidget')
 if [ "${_gitcommit}" != "" ]; then
 	source=("octopi-${pkgver}-${pkgrel}.tar.gz::https://github.com/aarnt/octopi/archive/${_gitcommit}.tar.gz"
-	'octopi-repoeditor.desktop')
+	'octopi-repoeditor.desktop'
+	transactiondialog.diff)
 else
   source=("https://github.com/aarnt/${pkgname}/archive/v${pkgver}.tar.gz"
-	'octopi-repoeditor.desktop')
+	'octopi-repoeditor.desktop'
+	transactiondialog.diff)
 fi
 sha256sums=('fda4b2c532d8f398ea03bfaf44fa86ab3a1d9611e652b313807a3193ad5a7e56'
-            '131f16745df685430db55e54ede6da66aed9b02ca00d6d873a002b2a3e1c90ef')
+            '131f16745df685430db55e54ede6da66aed9b02ca00d6d873a002b2a3e1c90ef'
+            '2d36c7ccc0235361bf105903281d05fe883559b6b34e550620faf9466aad9877')
 
 prepare() {
   if [ "${_gitcommit}" != "" ]; then
@@ -34,6 +37,8 @@ prepare() {
   cp -r notifier notifier-qt5
   cp -r notifier notifier-frameworks
 	sed -i 's|#DEFINES += KSTATUS|DEFINES += KSTATUS|' notifier-frameworks/octopi-notifier/octopi-notifier.pro
+
+	patch -Np 1 -i $srcdir/transactiondialog.diff
 }
 
 build() {
@@ -52,10 +57,10 @@ build() {
 	qmake-qt5 pacmanhelper.pro
 	make
 
-	cd ../../notifier-qt5/octopi-notifier
-	msg "Building octopi-notifier-qt5..."
-	qmake-qt5 octopi-notifier.pro
-	make
+# 	cd ../../notifier-qt5/octopi-notifier
+# 	msg "Building octopi-notifier-qt5..."
+# 	qmake-qt5 octopi-notifier.pro
+# 	make
 
 	cd ../../notifier-frameworks/octopi-notifier
 	msg "Building octopi-notifier-frameworks..."
@@ -126,25 +131,25 @@ package_octopi-pacmanhelper() {
 	install -Dm644 "notifier/pacmanhelper/polkit/org.octopi.pacmanhelper.service" "${pkgdir}/usr/share/dbus-1/system-services/org.octopi.pacmanhelper.service"
 }
 
-package_octopi-notifier-qt5() {
-	pkgdesc="Notifier for Octopi using Qt5 libs"
-	depends=('octopi-pacmanhelper' 'libnotify' 'qt5-base')
-	optdepends=('xfce4-notifyd: for notifications in XFCE')
-	conflicts=('octopi-notifier' 'octopi-notifier-qt4' 'octopi-notifier-frameworks')
-	provides=('octopi-notifier')
-	replaces=('octopi-notifier-qt4')
-
-	if [ "${_gitcommit}" != "" ]; then
-		cd "${srcdir}/${pkgbase}-${_gitcommit}"
-	else
-		cd "${srcdir}/${pkgbase}-${pkgver}"
-	fi
-
-	#Octopi-notifier files
-	install -D -m755 "notifier-qt5/bin/octopi-notifier" "${pkgdir}/usr/bin/octopi-notifier"
-	install -D -m644 "notifier-qt5/octopi-notifier/octopi-notifier.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
-	install -D -m644 "notifier-qt5/octopi-notifier/octopi-notifier.desktop" "${pkgdir}/etc/xdg/autostart/${pkgname}.desktop"
-}
+# package_octopi-notifier-qt5() {
+# 	pkgdesc="Notifier for Octopi using Qt5 libs"
+# 	depends=('octopi-pacmanhelper' 'libnotify' 'qt5-base')
+# 	optdepends=('xfce4-notifyd: for notifications in XFCE')
+# 	conflicts=('octopi-notifier' 'octopi-notifier-qt4' 'octopi-notifier-frameworks')
+# 	provides=('octopi-notifier')
+# 	replaces=('octopi-notifier-qt4')
+#
+# 	if [ "${_gitcommit}" != "" ]; then
+# 		cd "${srcdir}/${pkgbase}-${_gitcommit}"
+# 	else
+# 		cd "${srcdir}/${pkgbase}-${pkgver}"
+# 	fi
+#
+# 	#Octopi-notifier files
+# 	install -D -m755 "notifier-qt5/bin/octopi-notifier" "${pkgdir}/usr/bin/octopi-notifier"
+# 	install -D -m644 "notifier-qt5/octopi-notifier/octopi-notifier.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+# 	install -D -m644 "notifier-qt5/octopi-notifier/octopi-notifier.desktop" "${pkgdir}/etc/xdg/autostart/${pkgname}.desktop"
+# }
 
 package_octopi-notifier-frameworks() {
 	pkgdesc="Notifier for Octopi with Knotifications support"
