@@ -11,7 +11,7 @@ pkgdesc="Power mangement and controlling most of APC's UPS models"
 arch=(x86_64)
 url="http://www.apcupsd.org"
 license=('GPL')
-depends=('gcc-libs' openrc 'libusb-compat')
+depends=('gcc-libs' 'openrc' 'artix-sysvcompat' 'libusb-compat')
 optdepends=('gd: for CGI'
             'gconf: for frontend'
             'gtk2: for frontend')
