@@ -6,7 +6,7 @@
 
 pkgname=apcupsd
 pkgver=3.14.14
-pkgrel=2
+pkgrel=3
 pkgdesc="Power mangement and controlling most of APC's UPS models"
 arch=(x86_64)
 url="http://www.apcupsd.org"
@@ -27,11 +27,18 @@ backup=(etc/apcupsd/apcupsd.conf
         etc/apcupsd/onbattery
         etc/apcupsd/apccontrol)
 source=(http://downloads.sourceforge.net/apcupsd/$pkgname-$pkgver.tar.gz{,.sig}
-        apcupsd-tmpfiles.conf)
+        apcupsd-tmpfiles.conf
+        apcupsd-3.14.4-shutdown.patch)
 sha256sums=('db7748559b6b4c3784f9856561ef6ac6199ef7bd019b3edcd7e0a647bf8f9867'
             'SKIP'
-            'a4474cfcd607c5e9b64e27eec7cbc2b0bcf08c8ea37fd1f0f28e98ac2883fd4f')
+            'a4474cfcd607c5e9b64e27eec7cbc2b0bcf08c8ea37fd1f0f28e98ac2883fd4f'
+            '714468c0fbb07022ab29a58eac142eafd5aec9a0ab21e670266ebe7e760ccaf4')
 validpgpkeys=(635B9D943945DCA05BE9AB0A24E84804A57B2D90)
+
+prepare() {
+    cd "$srcdir/$pkgname-$pkgver"
+    patch -p1 -i "$srcdir/apcupsd-3.14.4-shutdown.patch"
+}
 
 build() {
 	cd "$srcdir/$pkgname-$pkgver"
