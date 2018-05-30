@@ -5,7 +5,7 @@
 
 pkgname=qt5-fsarchiver
 pkgver=0.8.1_1
-pkgrel=2
+pkgrel=3
 pkgdesc='GUI for fsarchiver'
 arch=('i686' 'x86_64')
 url='http://qt4-fsarchiver.sourceforge.net/'
