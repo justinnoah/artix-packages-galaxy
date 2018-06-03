@@ -12,8 +12,7 @@ pkgdesc="Uncomplicated and easy to use CLI tool for managing a netfilter firewal
 arch=('any')
 url="https://launchpad.net/ufw"
 license=('GPL3')
-depends=('iptables' 'python2')
-install=ufw.install
+depends=('iptables' 'python')
 backup=('etc/ufw/before.rules'
         'etc/ufw/before6.rules'
         'etc/ufw/after.rules'
@@ -22,15 +21,11 @@ backup=('etc/ufw/before.rules'
         'etc/ufw/user.rules'
         'etc/ufw/sysctl.conf'
         'etc/default/ufw'
-        'usr/lib/ufw/user.rules'
-        'usr/lib/ufw/user6.rules'
         'etc/ufw/user.rules'
         'etc/ufw/user6.rules')
-source=(http://launchpad.net/$pkgname/$pkgver/$pkgver/+download/$pkgname-$pkgver.tar.gz)
+source=("http://launchpad.net/$pkgname/$pkgver/$pkgver/+download/$pkgname-$pkgver.tar.gz")
 sha256sums=('662f865bc83bf8aa1a40a6fe578bc2ce796ff60a1be2c1103def7db1b91f8509')
 
-# this /usr/lib/ufw/ rules were moved to /etc/ufw
-# remove /usr/lib from backup in O.36?
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -46,7 +41,7 @@ prepare() {
 package() {
   cd "$pkgname-$pkgver"
 
-  python2 setup.py install --root="$pkgdir"
+  python3 setup.py install --root="$pkgdir"
 
   chmod 644 "$pkgdir/etc/ufw/"*.rules
 }
