@@ -1,0 +1,68 @@
+# $Id$
+# Maintainer: David Runge <dave@sleepmap.de>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Techlive Zheng <techlivezheng at gmail dot com>
+# Contributor: peace4all <markspost at rocketmail dot com>
+
+pkgname=dnscrypt-proxy
+pkgver=2.0.14
+pkgrel=2
+pkgdesc="A flexible DNS proxy, with support for modern encrypted DNS protocols such as DNSCrypt v2 and DNS-over-HTTP."
+arch=('x86_64')
+url="https://dnscrypt.info"
+license=('custom:ISC')
+depends=('glibc')
+makedepends=('git' 'go-pie')
+install="${pkgname}.install"
+backup=("etc/${pkgname}/${pkgname}.toml"
+        "etc/${pkgname}/blacklist.txt"
+        "etc/${pkgname}/cloaking-rules.txt"
+        "etc/${pkgname}/forwarding-rules.txt"
+        "etc/${pkgname}/ip-blacklist.txt"
+        "etc/${pkgname}/whitelist.txt"
+)
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/jedisct1/${pkgname}/archive/${pkgver}.tar.gz"
+        'configuration.diff')
+sha512sums=('2574f900b6e2f75eeeee2f634e22df41145243c23cd9a890fcfa73f13b7d032bc2b029cbb6498f5c2cd33e212392ca2298a1dce6bb369be5c9afccc21a706613'
+            '6144f3d33f3d85c9a4e5573f88e92f1b9d7118fd654072eeac6c3f76085086d4b2464e1d3579d8501153f453bc5125859d148fc3b3486d26368d1f51911aeb33')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  patch -Np1 -i ../configuration.diff
+  # create empty ip-blacklist.txt
+  touch "${pkgname}/ip-blacklist.txt"
+  # set GOPATH
+  export GOPATH=`pwd`
+  # symlink upstream's vendor to src
+  ln -sfv vendor src
+}
+
+build() {
+  cd "$pkgname-$pkgver/${pkgname}"
+  go build -ldflags="-s -w"
+}
+
+package() {
+  cd $pkgname-$pkgver
+  # executable
+  install -vDm 755 "${pkgname}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  # configuration
+  install -vDm 644 "${pkgname}/example-${pkgname}.toml" \
+    "${pkgdir}/etc/${pkgname}/${pkgname}.toml"
+  install -vDm 644 "${pkgname}/example-blacklist.txt" \
+    "${pkgdir}/etc/${pkgname}/blacklist.txt"
+  install -vDm 644 "${pkgname}/example-cloaking-rules.txt" \
+    "${pkgdir}/etc/${pkgname}/cloaking-rules.txt"
+  install -vDm 644 "${pkgname}/example-forwarding-rules.txt" \
+    "${pkgdir}/etc/${pkgname}/forwarding-rules.txt"
+  install -vDm 644 "${pkgname}/ip-blacklist.txt" \
+    "${pkgdir}/etc/${pkgname}/ip-blacklist.txt"
+  install -vDm 644 "${pkgname}/example-whitelist.txt" \
+    "${pkgdir}/etc/${pkgname}/whitelist.txt"
+  # license
+  install -vDm 644 LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+  # docs
+  install -vDm 644 {ChangeLog,README.md} \
+    -t "$pkgdir/usr/share/doc/${pkgname}"
+}
+# vim:set ts=2 sw=2 et:
