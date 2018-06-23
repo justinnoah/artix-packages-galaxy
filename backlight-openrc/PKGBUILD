@@ -1,0 +1,19 @@
+# Maintainer: Alois Nespor <alium@centrum.cz>
+
+pkgname=backlight-openrc
+pkgver=2
+pkgrel=1
+pkgdesc="Restore the screen brightness at system startup"
+url="https://github.com/alium/backlight-openrc"
+arch=('x86_64')
+license=('GPL3')
+group=('openrc-galaxy')
+depends=('openrc')
+source=("git+https://github.com/alium/backlight-openrc.git")
+sha256sums=('SKIP')
+
+
+package() {
+    cd "$srcdir/$pkgname"
+    install -Dm=755 backlight "$pkgdir/etc/init.d/backlight"
+}
