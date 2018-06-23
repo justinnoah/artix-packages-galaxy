@@ -2,7 +2,7 @@
 
 pkgname=backlight-openrc
 pkgver=20180623
-pkgrel=1
+pkgrel=1.1
 pkgdesc="Restore the screen brightness at system startup"
 url="https://github.com/alium/backlight-openrc"
 arch=('any')
