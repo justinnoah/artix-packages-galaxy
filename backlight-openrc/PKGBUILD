@@ -1,7 +1,7 @@
 # Maintainer: Alois Nespor <alium@centrum.cz>
 
 pkgname=backlight-openrc
-pkgver=2
+pkgver=20180623
 pkgrel=1
 pkgdesc="Restore the screen brightness at system startup"
 url="https://github.com/alium/backlight-openrc"
