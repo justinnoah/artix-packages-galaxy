@@ -1,0 +1,30 @@
+# Maintainer: Christian Rebischke <chris.rebischke@archlinux.org>
+
+pkgname=iwd
+pkgver=0.3
+pkgrel=1
+pkgdesc='Internet Wireless Daemon'
+arch=('x86_64')
+url='https://git.kernel.org/cgit/network/wireless/iwd.git/'
+license=('LGPL')
+depends=('glibc')
+source=("https://www.kernel.org/pub/linux/network/wireless/iwd-${pkgver}.tar"{.xz,.sign})
+sha512sums=('9c34d98ecae18955cc39cb7a58c0724b500902e2070ebbc1967fa4e2ed3633e01052a6bcb592b8bbb806307d8f0db8271a0ac7ad105f8a8f42915b8627e429f6'
+            'SKIP')
+validpgpkeys=('E932D120BC2AEC444E558F0106CA9F5D1DCF2659')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+	./configure --prefix=/usr \
+	--sysconfdir=/etc \
+	--libexecdir=/usr/lib/iwd \
+	--localstatedir=/var
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make install DESTDIR="${pkgdir}"
+}
+
+# vim: set ts=2 sw=2 ft=sh noet:
