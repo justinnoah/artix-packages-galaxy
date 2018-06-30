@@ -7,7 +7,7 @@ pkgdesc='Internet Wireless Daemon'
 arch=('x86_64')
 url='https://git.kernel.org/cgit/network/wireless/iwd.git/'
 license=('LGPL')
-depends=('glibc')
+depends=('glibc' 'dbus')
 source=("https://www.kernel.org/pub/linux/network/wireless/iwd-${pkgver}.tar"{.xz,.sign})
 sha512sums=('9c34d98ecae18955cc39cb7a58c0724b500902e2070ebbc1967fa4e2ed3633e01052a6bcb592b8bbb806307d8f0db8271a0ac7ad105f8a8f42915b8627e429f6'
             'SKIP')
@@ -18,7 +18,8 @@ build() {
 	./configure --prefix=/usr \
 	--sysconfdir=/etc \
 	--libexecdir=/usr/lib/iwd \
-	--localstatedir=/var
+	--localstatedir=/var \
+	--disable-systemd-service
   make
 }
 
