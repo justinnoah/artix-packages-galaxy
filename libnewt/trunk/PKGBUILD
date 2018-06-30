@@ -24,7 +24,7 @@ sha256sums=('8d66ba6beffc3f786d4ccfee9d2b43d93484680ef8db9397a4fb70b5adbb6dbc')
 prepare() {
   cd "newt-$pkgver"
 
-  sed -i "s:tcl8.4:tcl$_tclver:" Makefile.in
+  sed -i "s|tcl8.4|tcl$_tclver|" Makefile.in
   echo '#define USE_INTERP_RESULT 1' >> config.h
 }
 
