@@ -4,7 +4,7 @@
 # Contributor: Sid Karunaratne
 
 pkgname=tor
-pkgver=0.3.3.6
+pkgver=0.3.3.7
 pkgrel=1
 pkgdesc='Anonymizing overlay network.'
 arch=('x86_64')
@@ -19,11 +19,11 @@ source=("https://www.torproject.org/dist/${pkgname}-${pkgver}.tar.gz"{,.asc}
         'torrc'
         'tor.sysusers'
         'tor.tmpfiles')
-md5sums=('80ab629790f1aa50f37047ae46ced282'
-         'SKIP'
-         'c1dd4004c63edaeaa829e01be5413cfc'
-         '5de6b0aff2a152a03d8eb7a473edc5ff'
-         '30e307d882c818cb44bcb2d6b81789a3')
+sha256sums=('ea6bb512c4adfbc4e05b22e4c2d06bddff5b358a53de982273fec846b75bde0c'
+            'SKIP'
+            '44093eaf790c6c1cad8690ee002829481fb9b22ca58663f524f5792521222406'
+            '04eec05b4e61efccc58c5da657363f0c1059d7f122cb15c32331a201af2d7f94'
+            '07bedb17660a3673b31b0005b6505065c90b32f2c6b28b969241da675560f926')
 validpgpkeys=('2133BC600AB133E1D826D173FE43009C4607B1FB') # Nick Mathewson
 
 build() {
