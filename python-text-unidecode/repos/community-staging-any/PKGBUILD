@@ -24,6 +24,7 @@ build() {
   cd "$srcdir"/text-unidecode-$pkgver
   python setup.py build
 
+
   cd "$srcdir"/text-unidecode-$pkgver-py2
   python2 setup.py build
 }
