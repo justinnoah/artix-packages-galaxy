@@ -16,7 +16,9 @@ sha256sums=('8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1')
 
 package() {
   cd enum34-${pkgver}
+  
   python2 setup.py install --root="${pkgdir}" --optimize='1'
+
 
   install -dm 755 "${pkgdir}"/usr/share/licenses/python2-enum34
   install -m 644 enum/LICENSE "${pkgdir}"/usr/share/licenses/python2-enum34/
