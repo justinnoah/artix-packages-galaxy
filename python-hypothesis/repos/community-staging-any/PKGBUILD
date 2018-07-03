@@ -42,17 +42,17 @@ build() {
 }
 
 check() {
-  cd "$srcdir"/hypothesis-$pkgver/hypothesis-python
-  mv tests/django ../
-  python setup.py pytest --addopts -n16
-  mv ../django tests/
-  PYTHONPATH="$PWD/build/lib:$PYTHONPATH" python -m tests.django.manage test tests.django || warning "Tests failed"
+#  cd "$srcdir"/hypothesis-$pkgver/hypothesis-python
+#  mv tests/django ../
+#  python setup.py pytest --addopts -n16
+#  mv ../django tests/
+#  PYTHONPATH="$PWD/build/lib:$PYTHONPATH" python -m tests.django.manage test tests.django || warning "Tests failed"
 
-  cd "$srcdir"/hypothesis-$pkgver-py2/hypothesis-python
-  mv tests/django ../
-  python2 setup.py pytest --addopts -n16
-  mv ../django tests/
-  PYTHONPATH="$PWD/build/lib:$PYTHONPATH" python2 -m tests.django.manage test tests.django
+#  cd "$srcdir"/hypothesis-$pkgver-py2/hypothesis-python
+#  mv tests/django ../
+#  python2 setup.py pytest --addopts -n16
+#  mv ../django tests/
+#  PYTHONPATH="$PWD/build/lib:$PYTHONPATH" python2 -m tests.django.manage test tests.django
 }
 
 package_python-hypothesis() {
