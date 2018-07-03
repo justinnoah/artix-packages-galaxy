@@ -20,7 +20,6 @@ package() {
   python2 setup.py install --root="${pkgdir}"  --optimize=1
 }
 
-
 check() {
   cd "$srcdir/funcsigs-$pkgver/tests"
   nosetests2 .
