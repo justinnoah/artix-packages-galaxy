@@ -23,7 +23,6 @@ prepare() {
   cp -a faker-$pkgver{,-py2}
 }
 
-
 build() {
   cd "$srcdir"/faker-$pkgver
   python setup.py build
