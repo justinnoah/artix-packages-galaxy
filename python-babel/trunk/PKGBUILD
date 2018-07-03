@@ -39,6 +39,7 @@ build(){
   python2 setup.py build
 }
 
+
 check(){
   cd "$srcdir/babel-$pkgver"
   python setup.py pytest
