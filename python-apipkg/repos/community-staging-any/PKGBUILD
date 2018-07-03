@@ -42,7 +42,6 @@ package_python-apipkg() {
   install -D -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-
 package_python2-apipkg() {
   depends=('python2')
 
