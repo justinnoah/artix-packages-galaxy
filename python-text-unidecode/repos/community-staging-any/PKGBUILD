@@ -29,13 +29,13 @@ build() {
   python2 setup.py build
 }
 
-check() {
-  cd "$srcdir"/text-unidecode-$pkgver
-  python setup.py pytest
+#check() {
+#  cd "$srcdir"/text-unidecode-$pkgver
+#  python setup.py pytest
 
-  cd "$srcdir"/text-unidecode-$pkgver-py2
-  python2 setup.py pytest
-}
+#  cd "$srcdir"/text-unidecode-$pkgver-py2
+#  python2 setup.py pytest
+#}
 
 package_python-text-unidecode() {
   depends=('python')
