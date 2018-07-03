@@ -32,6 +32,7 @@ prepare() {
   export LC_CTYPE=en_US.UTF-8
 }
 
+
 build() {
   cd "$srcdir"/hypothesis-$pkgver/hypothesis-python
   python setup.py build
