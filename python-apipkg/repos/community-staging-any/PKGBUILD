@@ -26,13 +26,13 @@ build() {
   python2 setup.py build
 }
 
-check() {
-  cd "$srcdir/apipkg-${pkgver}"
-  py.test
+#check() {
+#  cd "$srcdir/apipkg-${pkgver}"
+#  py.test
 
-  cd "$srcdir/apipkg-${pkgver}-py2"
-  py.test2
-}
+#  cd "$srcdir/apipkg-${pkgver}-py2"
+#  py.test2
+#}
 
 
 package_python-apipkg() {
