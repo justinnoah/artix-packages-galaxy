@@ -27,6 +27,7 @@ build() {
   python2 setup.py build
 }
 
+
 package() {
   cd "${srcdir}"/singledispatch-$pkgver
 
