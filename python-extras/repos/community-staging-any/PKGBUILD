@@ -26,6 +26,7 @@ build() {
   python2 setup.py build
 }
 
+
 check() {
   cd "$srcdir/extras"
   python -m testtools.run extras.tests.test_suite
