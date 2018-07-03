@@ -22,7 +22,7 @@ package() {
 
 check() {
   cd "$srcdir/funcsigs-$pkgver/tests"
-#  nosetests2 .
+  nosetests2 .
 }
 
 # vim:ts=2:sw=2:et:
