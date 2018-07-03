@@ -41,7 +41,6 @@ check() {
   pytest2
 }
 
-
 package_python-dateutil() {
 depends=('python-six')
   cd "$srcdir"/python-dateutil-$pkgver
