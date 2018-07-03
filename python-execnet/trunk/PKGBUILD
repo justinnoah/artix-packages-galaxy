@@ -30,6 +30,7 @@ check() {
   cd "$srcdir/execnet-${pkgver}"
   PYTHONPATH="$PWD/build/lib:$PYTHONPATH" py.test testing
 
+
   cd "$srcdir/execnet-${pkgver}-py2"
   PYTHONPATH="$PWD/build/lib:$PYTHONPATH" py.test2 testing
 }
