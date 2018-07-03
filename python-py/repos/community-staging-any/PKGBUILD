@@ -42,7 +42,7 @@ check() {
 
   cd "$srcdir"/py-$pkgver
   python setup.py pytest || warning "Tests failed"
-
+ 
   cd "$srcdir"/py-$pkgver-py2
   python2 setup.py pytest || warning "Tests failed"
 }
