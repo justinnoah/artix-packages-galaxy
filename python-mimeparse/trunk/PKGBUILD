@@ -21,6 +21,7 @@ build() {
   cd "$srcdir"/python-mimeparse
   python setup.py build
 
+
   cd "$srcdir"/python-mimeparse-py2
   python2 setup.py build
 }
