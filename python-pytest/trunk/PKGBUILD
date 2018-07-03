@@ -43,6 +43,7 @@ check() {
   PYTHONPATH="$PWD"/build/lib python2 src/pytest.py
 }
 
+
 package_python-pytest() {
   depends=('python-py' 'python-setuptools' 'python-pluggy' 'python-attrs' 'python-more-itertools'
            'python-atomicwrites')
