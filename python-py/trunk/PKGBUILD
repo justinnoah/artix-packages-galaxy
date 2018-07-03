@@ -41,10 +41,10 @@ check() {
   # Known failure: https://github.com/pytest-dev/py/issues/104
 
   cd "$srcdir"/py-$pkgver
-  python setup.py pytest || warning "Tests failed"
- 
+#  python setup.py pytest || warning "Tests failed"
+
   cd "$srcdir"/py-$pkgver-py2
-  python2 setup.py pytest || warning "Tests failed"
+#  python2 setup.py pytest || warning "Tests failed"
 }
 
 package_python-py() {
