@@ -33,6 +33,7 @@ build() {
   cd "$srcdir"/py-$pkgver
   python setup.py build
 
+
   cd "$srcdir"/py-$pkgver-py2
   python2 setup.py build
 }
