@@ -55,6 +55,7 @@ package_python-py() {
   install -D -m644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
 }
 
+
 package_python2-py() {
   depends=('python2-iniconfig' 'python2-apipkg')
 
