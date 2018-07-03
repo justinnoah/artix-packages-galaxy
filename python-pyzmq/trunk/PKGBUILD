@@ -25,6 +25,7 @@ prepare() {
   sed -i 's|^#!/usr/bin/env python$|&2|' $(find ./ -name '*.py')
 }
 
+
 build() {
   cd "$srcdir"
 }
