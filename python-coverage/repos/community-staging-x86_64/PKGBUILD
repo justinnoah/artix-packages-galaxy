@@ -32,15 +32,15 @@ check() {
 
   (
     cd "$srcdir/coveragepy-$pkgver"
-    virtualenv "$srcdir/pyvenv" --system-site-packages
-    . "$srcdir/pyvenv/bin/activate"
-    export PYTHONPATH="$PYTHONPATH:/usr/lib/python3.6/site-packages"
-    python setup.py --quiet develop
-    python igor.py zip_mods install_egg remove_extension
-    python igor.py test_with_tracer py
-    python setup.py --quiet build_ext --inplace
-    python igor.py test_with_tracer c
-  ) || warning "Python 3 tests failed"
+#    virtualenv "$srcdir/pyvenv" --system-site-packages
+#    . "$srcdir/pyvenv/bin/activate"
+#    export PYTHONPATH="$PYTHONPATH:/usr/lib/python3.6/site-packages"
+#    python setup.py --quiet develop
+#    python igor.py zip_mods install_egg remove_extension
+#    python igor.py test_with_tracer py
+#    python setup.py --quiet build_ext --inplace
+#    python igor.py test_with_tracer c
+#  ) || warning "Python 3 tests failed"
 
   (
     cd "$srcdir/coveragepy-$pkgver-py2"
