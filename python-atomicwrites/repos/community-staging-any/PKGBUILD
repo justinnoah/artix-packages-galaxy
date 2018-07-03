@@ -48,6 +48,7 @@ package_python-atomicwrites() {
     -vDm644 {README,CONTRIBUTING}.rst
 }
 
+
 package_python2-atomicwrites() {
   depends=('python2')
   cd "${pkgname[1]}-${pkgver}"
