@@ -22,7 +22,6 @@ makedepends=('python-setuptools' 'python-dateutil' 'python-numpy' 'python-pytz'
 source=("https://github.com/pydata/pandas/archive/v${pkgver}.tar.gz")
 md5sums=('ba184b95a04e39374e6cb5a5faf48651')
 
-
 prepare() {
   cd "$srcdir"
   cp -a pandas-${pkgver} pandas-py2-${pkgver}
