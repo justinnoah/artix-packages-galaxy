@@ -27,6 +27,7 @@ build() {
   python2 setup.py build
 }
 
+
 check() {
   cd "$srcdir"/fixtures-$pkgver
   python -m testtools.run fixtures.test_suite
