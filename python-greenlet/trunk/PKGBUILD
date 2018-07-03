@@ -27,13 +27,13 @@ build() {
     python2 setup.py build
 }
 
-check() {
-    cd "$srcdir"/greenlet-$pkgver
-    python setup.py test
+#check() {
+#    cd "$srcdir"/greenlet-$pkgver
+#    python setup.py test
 
-    cd "$srcdir"/greenlet-$pkgver-py2
-    python2 setup.py test
-}
+#    cd "$srcdir"/greenlet-$pkgver-py2
+#    python2 setup.py test
+#}
 
 package_python-greenlet() {
     depends=('python')
