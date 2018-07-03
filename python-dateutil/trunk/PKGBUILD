@@ -35,10 +35,10 @@ build() {
 
 check() {
   cd "$srcdir"/python-dateutil-$pkgver
-#  pytest
+  pytest
 
   cd "$srcdir"/python2-dateutil-$pkgver
-#  pytest2
+  pytest2
 }
 
 package_python-dateutil() {
