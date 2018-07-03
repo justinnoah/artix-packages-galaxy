@@ -41,7 +41,7 @@ build() {
   python2 setup.py build
 }
 
-check() {
+#check() {
 #  cd "$srcdir"/hypothesis-$pkgver/hypothesis-python
 #  mv tests/django ../
 #  python setup.py pytest --addopts -n16
@@ -53,7 +53,7 @@ check() {
 #  python2 setup.py pytest --addopts -n16
 #  mv ../django tests/
 #  PYTHONPATH="$PWD/build/lib:$PYTHONPATH" python2 -m tests.django.manage test tests.django
-}
+#}
 
 package_python-hypothesis() {
   depends=('python-attrs' 'python-coverage')
