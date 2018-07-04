@@ -25,6 +25,7 @@ build() {
     sed -i '1s,^#! \?/usr/bin/\(env \|\)python$,#!/usr/bin/python2,' {} \;
 }
 
+
 check() {
   cd psutil-release-$pkgver
 
