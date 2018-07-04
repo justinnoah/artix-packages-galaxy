@@ -22,10 +22,10 @@ prepare() {
 
 build() {
   cd "$srcdir"/path.py-$pkgver
-  python setup.py build
+  python setup.py build  || :
 
   cd "$srcdir"/path.py-$pkgver-py2
-  python2 setup.py build
+  python2 setup.py build  || :
 }
 
 check() {
