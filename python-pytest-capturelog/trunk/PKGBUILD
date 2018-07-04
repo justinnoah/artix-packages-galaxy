@@ -23,6 +23,7 @@ build() {
   cd "$srcdir/$_pypiname"
   python setup.py build
 
+
   cd "$srcdir/$_pypiname-py2"
   python2 setup.py build
 }
