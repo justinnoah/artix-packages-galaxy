@@ -33,7 +33,10 @@ check() {
   cd "${pkgname[0]}-${pkgver}"
   export PYTHONPATH="."
   py.test ||:
+<<<<<<< HEAD
   
+=======
+>>>>>>> [trunk] -> [community-staging] 'python-pytest-xprocess-0.12.1-4' add
   cd ../"${pkgname[1]}-${pkgver}"
   export PYTHONPATH="."
   py.test2 ||:

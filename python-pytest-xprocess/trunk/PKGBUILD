@@ -33,7 +33,6 @@ check() {
   cd "${pkgname[0]}-${pkgver}"
   export PYTHONPATH="."
   py.test ||:
-  
   cd ../"${pkgname[1]}-${pkgver}"
   export PYTHONPATH="."
   py.test2 ||:
