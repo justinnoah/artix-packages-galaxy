@@ -1,0 +1,32 @@
+# $Id$
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=python-pytest-asyncio
+pkgver=0.8.0
+pkgrel=1
+pkgdesc="Pytest support for asyncio."
+arch=('any')
+license=('Apache')
+url="https://github.com/pytest-dev/pytest-asyncio/"
+depends=('python-pytest')
+checkdepends=('python-pytest-cov' 'python-async_generator')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/pytest-dev/pytest-asyncio/archive/v$pkgver.tar.gz")
+sha512sums=('7c2660b95294a4486b1d5ec15f2b894e8aae261c902563b7c144d14e42dd601fabe774df0a035697745bcaf3492fa9ed05390b2c58c034c3e20d4ec16d8368d4')
+
+build() {
+  cd pytest-asyncio-$pkgver
+  python setup.py build
+}
+
+check() {
+  # Hack entry points by installing it
+
+  cd pytest-asyncio-$pkgver
+  python setup.py install --root="$PWD/tmp_install" --optimize=1
+  PYTHONPATH="$PWD/tmp_install/usr/lib/python3.6/site-packages:$PYTHONPATH:$PWD/tests" py.test
+}
+
+package() {
+  cd pytest-asyncio-$pkgver
+  python setup.py install --root="$pkgdir" --optimize=1
+}
