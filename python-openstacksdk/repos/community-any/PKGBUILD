@@ -41,13 +41,13 @@ build() {
   python2 setup.py build
 }
 
-check() {
-  cd "$srcdir"/openstacksdk-$pkgver
-  stestr run ||:
+#check() {
+#  cd "$srcdir"/openstacksdk-$pkgver
+#  stestr run ||:
 
-  cd "$srcdir"/openstacksdk-$pkgver-py2
-  stestr2 run ||:
-}
+#  cd "$srcdir"/openstacksdk-$pkgver-py2
+#  stestr2 run ||:
+#}
 
 package_python-openstacksdk() {
   depends=('python-six' 'python-pbr' 'python-jsonpatch' 'python-appdirs' 'python-keystoneauth1'
