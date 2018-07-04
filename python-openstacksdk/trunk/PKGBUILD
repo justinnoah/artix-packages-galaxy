@@ -72,4 +72,5 @@ package_python2-openstacksdk() {
   mv "$pkgdir"/usr/bin/openstack-inventory{,2}
 }
 
+
 # vim:set ts=2 sw=2 et:
