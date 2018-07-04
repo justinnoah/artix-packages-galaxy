@@ -21,6 +21,7 @@ prepare() {
   cp -a objgraph-$pkgver{,-py2}
 }
 
+
 build() {
   cd "$srcdir"/objgraph-$pkgver
   python setup.py build
