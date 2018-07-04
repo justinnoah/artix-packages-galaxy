@@ -2,16 +2,16 @@
 # Contributor: Sebastien Leduc <sebastien@sleduc.fr>
 pkgname=python2-trollius
 _realname=trollius
-pkgver=2.1
-pkgrel=2
+pkgver=2.2
+pkgrel=1
 pkgdesc="Port of the Tulip project (asyncio module, PEP 3156) on Python 2.7"
 arch=("any")
-url="http://trollius.readthedocs.org/"
+url="https://pypi.org/project/trollius"
 license=('APACHE')
 depends=('python2' 'python2-futures' 'python2-six')
 optdepends=('python2-unittest2: to pass trollius unit tests')
-source=("http://pypi.python.org/packages/source/t/$_realname/$_realname-$pkgver.tar.gz")
-md5sums=('0b36ff1057cb5a93befe7d8ef0edcbf8')
+source=("https://files.pythonhosted.org/packages/98/47/000d403a209e5d0c2753feabd3bbbd09a11e32652899abffc1ef5d5c0abb/$_realname-$pkgver.tar.gz")
+md5sums=('2e8f57baa85b87ddbc39fd946b04d3ab')
 
 build() {
   cd "$srcdir/$_realname-$pkgver"
