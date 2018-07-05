@@ -149,7 +149,7 @@ package_percona-server() {
 	install -Dm644 ../mysql-user.conf "$pkgdir"/usr/lib/sysusers.d/mysql.conf
 
 	cd "$pkgdir"
-	mv usr/usr/lib/* usr/lib
+# 	mv usr/usr/lib/* usr/lib
 	rm -rf usr/usr
 
 	# Move documentation
