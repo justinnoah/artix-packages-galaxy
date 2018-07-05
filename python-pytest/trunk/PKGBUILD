@@ -4,7 +4,7 @@
 
 pkgbase=python-pytest
 pkgname=('python-pytest' 'python2-pytest')
-pkgver=3.6.2
+pkgver=3.6.3
 pkgrel=2
 pkgdesc="Simple powerful testing with Python"
 arch=('any')
@@ -36,12 +36,12 @@ build() {
 }
 
 #check() {
-#  cd "$srcdir"/pytest-$pkgver
-#  PYTHONPATH="$PWD"/build/lib python src/pytest.py
+  cd "$srcdir"/pytest-$pkgver
+  PYTHONPATH="$PWD"/build/lib python src/pytest.py ||:
 
-#  cd "$srcdir"/pytest-$pkgver-py2
-#  PYTHONPATH="$PWD"/build/lib python2 src/pytest.py
-#}
+  cd "$srcdir"/pytest-$pkgver-py2
+  PYTHONPATH="$PWD"/build/lib python2 src/pytest.py ||:
+}
 
 
 package_python-pytest() {
