@@ -34,7 +34,7 @@ source=(
 	#"werror.patch::https://raw.githubusercontent.com/anthonybilinski/tox.pkg/de77c8c4537feeeee583925e114d7b6f5c09fc15/qtox-alpha/debian/patches/0001-backout-werror.patch"
     #"autoaccept.patch"
         )
-sha512sums=('117d903b069369b404d4fe8b80df9520cfa06455ef99a39780875be53d0efad931e209c476b15b27228338cf5dca6cfdd4b782d8025c1299ba64a5c8d69ed054'
+sha512sums=('8ddfe66f1e4404162925063d116c955df882953245da4d7d2009bff762bbbb548fb00ccce70ccd0f6cbd6445126209953fe5e89519f8facb011afbb5b6b52582'
             'SKIP')
 
 ## GPG key fingerprints taken from https://github.com/qTox/qTox/blob/$_gitver/README.md
