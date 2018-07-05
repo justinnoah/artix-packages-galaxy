@@ -47,6 +47,7 @@ check() {
   PYTHONPATH="$PWD/tmp_install/usr/lib/python3.6/site-packages:$PYTHONPATH" \
     py.test -p no:logging tests
 
+
   cd "$srcdir"/raven-python-$pkgver-py2
   python2 setup.py install --root="$PWD/tmp_install" --optimize=1
   PYTHONPATH="$PWD/tmp_install/usr/lib/python2.7/site-packages:$PYTHONPATH" \
