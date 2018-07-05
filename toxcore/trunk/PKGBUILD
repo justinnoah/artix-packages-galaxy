@@ -44,6 +44,7 @@ validpgpkeys=(
 '2880C860D95C909D3DA45C687E086DD661263264'  # - tux3
 )
 
+
 prepare() {
   cd $_pkgname-$pkgver
   sed -i "s|/usr/local|/usr|" other/bootstrap_daemon/tox-bootstrapd.service
