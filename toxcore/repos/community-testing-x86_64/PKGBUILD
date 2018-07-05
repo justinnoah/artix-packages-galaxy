@@ -44,7 +44,6 @@ validpgpkeys=(
 '2880C860D95C909D3DA45C687E086DD661263264'  # - tux3
 )
 
-
 prepare() {
   cd $_pkgname-$pkgver
   sed -i "s|/usr/local|/usr|" other/bootstrap_daemon/tox-bootstrapd.service
@@ -72,7 +71,7 @@ build() {
 check() {
   cd $_pkgname-$pkgver
   #make check
-#  make test ## test fail on i686
+  make test ## test fail on i686
 }
 
 package() {
