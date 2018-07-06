@@ -1,2 +1,2 @@
 #!/bin/sh
-chpst -u stubby stubby
+exec chpst -u stubby stubby
