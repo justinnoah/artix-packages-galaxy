@@ -17,7 +17,7 @@ depends=('runit' 'stubby')
 groups=('runit-galaxy')
 conflicts=('systemd-sysvcompat')
 source=("stubby.run")
-sha256sums=('40d30177e03f43f7580188e801f91e79c4c30fba032c084322b26eb9c21dfd4e')
+sha256sums=('3b5cfafdedc3ccee7794f6cc2bf8d0a4ef66a1339368605476133d63ad5b1a12')
 
 _inst_logsv() {
     for file in run finish check; do
