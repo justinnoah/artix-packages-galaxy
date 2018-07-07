@@ -16,7 +16,7 @@ depends=('libexif' 'libjpeg' 'libid3tag' 'flac' 'libvorbis' 'ffmpeg' 'sqlite')
 makedepends=('git')
 backup=('etc/minidlna.conf')
 changelog=changelog
-source=("minidlna::git+https://git.code.sf.net/p/minidlna/git#tag=v${pkgver//./_}"
+source=("minidlna::git://git.code.sf.net/p/minidlna/git#tag=v${pkgver//./_}"
 	minidlna.tmpfiles
 	minidlna.sysusers)
 sha512sums=('SKIP'
