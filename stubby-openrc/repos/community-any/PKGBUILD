@@ -2,24 +2,21 @@ _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 pkgname=stubby-openrc
 pkgver=20180523
-pkgrel=1
+pkgrel=2
 pkgdesc="OpenRC Stubby init script"
 arch=('any')
 url="https://github.com/artix-linux/packages-galaxy"
 license=('GPL2')
 groups=('openrc-galaxy')
 depends=('openrc' 'stubby')
-install=$pkgname.install
 conflicts=('systemd-sysvcompat')
 backup=('etc/conf.d/stubby')
 source=("stubby.confd::${_url}/net-dns/getdns/files/stubby.confd-r1"
         "stubby.initd::${_url}/net-dns/getdns/files/stubby.initd-r1"
-        "stubby.logrotate::${_url}/net-dns/getdns/files/stubby.logrotate"
-        'stubby.hook')
+        "stubby.logrotate::${_url}/net-dns/getdns/files/stubby.logrotate")
 sha256sums=('d9777a6f3092115566a9c786f929c0d2b3c3a92d2fa78d37e44962acb1133480'
             '5d9beeb852796ef336ce2d98b0f7679e8f0b74a89ce4f2b15a124b01b2baf43a'
-            '73140697520a1ccdf2096cb2044aacc32ad1c5238973a93d781755c9c8bb6a0d'
-            '655204b31b4e93ed7795c8fc8eaa9d47377ce1d5a28e46aa590b5b1451dcf0fc')
+            '73140697520a1ccdf2096cb2044aacc32ad1c5238973a93d781755c9c8bb6a0d')
 
 # pkgver() {
 #     date +%Y%m%d
@@ -42,5 +39,4 @@ package() {
     _inst_confd 'stubby'
     _inst_initd 'stubby'
     install -D -m 644 stubby.logrotate "$pkgdir/etc/logrotate.d/stubby"
-    install -D -m 644 stubby.hook "$pkgdir/usr/share/libalpm/hooks/10-stubby.hook"
 }
