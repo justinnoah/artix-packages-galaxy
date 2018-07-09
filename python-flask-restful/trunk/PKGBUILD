@@ -20,7 +20,6 @@ prepare() {
   cp -a flask-restful-$pkgver{,-py2}
 }
 
-
 build() {
   cd "$srcdir"/flask-restful-$pkgver
   python setup.py build
