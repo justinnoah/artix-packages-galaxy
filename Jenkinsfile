@@ -276,7 +276,7 @@ pipeline {
             }
             steps {
                 dir("${PKG_PATH}") {
-                    echo "buildpkg ${BUILD_ARGS}"
+                    sh "buildpkg ${BUILD_ARGS}"
                 }
             }
             post {
@@ -302,11 +302,11 @@ pipeline {
                 script {
                     if ( fileExists(PKG_PATH + '/PKGBUILD') ) {
                         dir(PKG_PATH) {
-                            echo "deploypkg ${ADD_ARGS}"
+                            sh "deploypkg ${ADD_ARGS}"
                         }
                     } else {
                         dir(PKG_TRUNK) {
-                            echo "deploypkg ${ADD_ARGS}"
+                            sh "deploypkg ${ADD_ARGS}"
                         }
                     }
                 }
@@ -320,11 +320,11 @@ pipeline {
                 script {
                     if ( fileExists(PKG_PATH + '/PKGBUILD') ) {
                         dir(PKG_PATH) {
-                            echo "deploypkg ${RM_ARGS}"
+                            sh "deploypkg ${RM_ARGS}"
                         }
                     } else {
                         dir(PKG_TRUNK) {
-                            echo "deploypkg ${RM_ARGS}"
+                            sh "deploypkg ${RM_ARGS}"
                         }
                     }
                 }
