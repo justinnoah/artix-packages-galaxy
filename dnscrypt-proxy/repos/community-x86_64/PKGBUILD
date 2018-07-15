@@ -63,9 +63,6 @@ package() {
     "${pkgdir}/etc/${pkgname}/ip-blacklist.txt"
   install -vDm 644 "${pkgname}/example-whitelist.txt" \
     "${pkgdir}/etc/${pkgname}/whitelist.txt"
-  # systemd service/socket
-  install -vDm 644 "../${pkgname}."{service,socket} \
-    -t "${pkgdir}/usr/lib/systemd/system/"
   # license
   install -vDm 644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   # docs
