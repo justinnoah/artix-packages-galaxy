@@ -5,7 +5,7 @@
 # Contributor: peace4all <markspost at rocketmail dot com>
 
 pkgname=dnscrypt-proxy
-pkgver=2.0.15
+pkgver=2.0.16
 pkgrel=1
 pkgdesc="DNS proxy, supporting encrypted DNS protocols such as DNSCrypt v2 and DNS-over-HTTP."
 arch=('x86_64')
@@ -22,13 +22,13 @@ backup=("etc/${pkgname}/${pkgname}.toml"
         "etc/${pkgname}/whitelist.txt"
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/jedisct1/${pkgname}/archive/${pkgver}.tar.gz"
-        'configuration.diff'
         'sysusers.d'
-        'tmpfiles.d')
-sha512sums=('4517ab7b7eb1474f8c9e133a289caf6c02f472b51b910f1fbe1e5ffd6d389943626c8878e68f7f27a47b00301a427dfe9c563bc82b67cafab32f4ab3bc4c84b9'
-            '6144f3d33f3d85c9a4e5573f88e92f1b9d7118fd654072eeac6c3f76085086d4b2464e1d3579d8501153f453bc5125859d148fc3b3486d26368d1f51911aeb33'
+        'tmpfiles.d'
+        'configuration.diff')
+sha512sums=('f138df20560dd440a2ed390c1468d630191ae7b0e50521b4dde3fa7ef4377c3ae6409e8c547858bace53216c84aeeea6794305546b9ff87832f704c160c6782f'
             '888da497ac3a09cd975b9a8de8cad22aabdc40213086b9683715292f6032259929714fd120ac952f91e3af5ada6f4a843054c880a5724c5eb8e6d31664c43ec8'
-            '005f8077c2c99a3bd86d814a0c05c0f5142952445e32a615302dc1fc7d4bf66d9f7c661ebd8ef218e890b80bfe0d014dd2e7b47fcebba69f217cec631195f151')
+            '005f8077c2c99a3bd86d814a0c05c0f5142952445e32a615302dc1fc7d4bf66d9f7c661ebd8ef218e890b80bfe0d014dd2e7b47fcebba69f217cec631195f151'
+            '6144f3d33f3d85c9a4e5573f88e92f1b9d7118fd654072eeac6c3f76085086d4b2464e1d3579d8501153f453bc5125859d148fc3b3486d26368d1f51911aeb33')
 
 prepare() {
   cd "$pkgname-$pkgver"
@@ -63,11 +63,15 @@ package() {
     "${pkgdir}/etc/${pkgname}/ip-blacklist.txt"
   install -vDm 644 "${pkgname}/example-whitelist.txt" \
     "${pkgdir}/etc/${pkgname}/whitelist.txt"
+  # systemd service/socket
+  install -vDm 644 "../${pkgname}."{service,socket} \
+    -t "${pkgdir}/usr/lib/systemd/system/"
   # license
-  install -vDm 644 LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+  install -vDm 644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   # docs
   install -vDm 644 {ChangeLog,README.md} \
-    -t "$pkgdir/usr/share/doc/${pkgname}"
+    -t "${pkgdir}/usr/share/doc/${pkgname}"
+
   # sysusers.d
   install -vDm 644 "$srcdir/sysusers.d" "$pkgdir/usr/lib/sysusers.d/${pkgname}.conf"
   # tmpfiles.d
