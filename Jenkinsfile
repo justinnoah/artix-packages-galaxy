@@ -3,10 +3,138 @@ def PKG_PATH = ''
 def ADD_ARGS = ''
 def RM_ARGS = ''
 def BUILD_ARGS = ''
-def IS_ADD = 'false'
-def IS_REMOVE = 'false'
-def IS_BUILD = 'false'
-def IS_BUILD_SUCCESS = 'false'
+Boolean IS_ADD = false
+Boolean IS_REMOVE = false
+Boolean IS_BUILD = false
+Boolean IS_BUILD_SUCCESS = false
+
+def getRepo(src) {
+    def repo = ''
+    if ( src == 'staging-x86_64' || src == 'staging-any' ) {
+        repo = 'goblins'
+    } else if ( src == 'testing-x86_64' || src == 'testing-any' ) {
+        repo = 'gremlins'
+    } else if ( src.contains('core') ) {
+        repo = 'system'
+    } else if ( src.contains('extra') ) {
+        repo = 'world'
+    } else if ( src.contains('community-staging') ) {
+        repo = 'galaxy-goblins'
+    } else if ( src.contains('community-testing') ) {
+        repo = 'galaxy-gremlins'
+    } else if ( src == 'community-x86_64' || src == 'community-any' ) {
+        repo = 'galaxy'
+    } else if ( src.contains('multilib-staging') ) {
+        repo = 'lib32-goblins'
+    } else if ( src.contains('multilib-testing') ) {
+        repo = 'lib32-gremlins'
+    } else if ( src.contains('multilib-x86_64') ) {
+        repo = 'lib32'
+    }
+    return repo
+}
+
+def getRepos(src, dest) {
+    def repoList = []
+    if ( src == 'staging-x86_64' && dest == 'testing-x86_64' ) {
+        repoList.add('gremlins')
+        repoList.add('goblins')
+    } else if ( src == 'staging-any' && dest == 'testing-any' ) {
+        repoList.add('gremlins')
+        repoList.add('goblins')
+    } else if ( src == 'testing-x86_64' && dest == 'staging-x86_64' ) {
+        repoList.add('goblins')
+        repoList.add('gremlins')
+    } else if ( src == 'testing-any' && dest == 'staging-any' ) {
+        repoList.add('goblins')
+        repoList.add('gremlins')
+    } else if ( src.contains('core') && dest == 'testing-x86_64' ) {
+        repoList.add('gremlins')
+        repoList.add('system')
+    } else if ( src.contains('core') && dest == 'testing-any' ) {
+        repoList.add('gremlins')
+        repoList.add('system')
+    } else if ( src == 'testing-x86_64' && dest.contains('core') ) {
+        repoList.add('system')
+        repoList.add('gremlins')
+    } else if ( src == 'testing-any' && dest.contains('core') ) {
+        repoList.add('system')
+        repoList.add('gremlins')
+    } else if ( src.contains('extra') && dest == 'testing-x86_64' ) {
+        repoList.add('gremlins')
+        repoList.add('world')
+    } else if ( src.contains('extra') && dest == 'testing-any' ) {
+        repoList.add('gremlins')
+        repoList.add('world')
+    } else if ( src == 'testing-x86_64' && dest.contains('extra') ) {
+        repoList.add('world')
+        repoList.add('gremlins')
+    } else if ( src == 'testing-any' && dest.contains('extra') ) {
+        repoList.add('world')
+        repoList.add('gremlins')
+    } else if ( src.contains('core') && dest.contains('extra') ) {
+        repoList.add('world')
+        repoList.add('system')
+    } else if ( src.contains('extra') && dest.contains('core') ) {
+        repoList.add('system')
+        repoList.add('world')
+    } else if ( src == 'community-x86_64' && dest.contains('extra') ) {
+        repoList.add('world')
+        repoList.add('galaxy')
+    } else if ( src == 'community-any' && dest.contains('extra') ) {
+        repoList.add('world')
+        repoList.add('galaxy')
+    } else if ( src.contains('extra') && dest == 'community-x86_64' ) {
+        repoList.add('galaxy')
+        repoList.add('world')
+    } else if ( src.contains('extra') && dest == 'community-any' ) {
+        repoList.add('galaxy')
+        repoList.add('world')
+    } else if ( src == 'community-x86_64' && dest.contains('core') ) {
+        repoList.add('system')
+        repoList.add('galaxy')
+    } else if ( src == 'community-any' && dest.contains('core') ) {
+        repoList.add('system')
+        repoList.add('galaxy')
+    } else if ( src.contains('core') && dest == 'community-x86_64' ) {
+        repoList.add('galaxy')
+        repoList.add('system')
+    } else if ( src.contains('core') && dest == 'community-any' ) {
+        repoList.add('galaxy')
+        repoList.add('system')
+    } else if ( src.contains('community-staging') && dest.contains('community-testing') ) {
+        repoList.add('galaxy-gremlins')
+        repoList.add('galaxy-goblins')
+    } else if ( src.contains('community-testing') && dest.contains('community-staging') ) {
+        repoList.add('galaxy-goblins')
+        repoList.add('galaxy-gremlins')
+    } else if ( src.contains('community-testing') && dest == 'community-x86_64' ) {
+        repoList.add('galaxy')
+        repoList.add('galaxy-gremlins')
+    } else if ( src.contains('community-testing') && dest == 'community-any' ) {
+        repoList.add('galaxy')
+        repoList.add('galaxy-gremlins')
+    } else if ( src == 'community-x86_64' && dest.contains('community-testing') ) {
+        repoList.add('galaxy-gremlins')
+        repoList.add('galaxy')
+    } else if ( src == 'community-any' && dest.contains('community-testing') ) {
+        repoList.add('galaxy-gremlins')
+        repoList.add('galaxy')
+    } else if ( src.contains('multilib-staging') && dest.contains('multilib-testing') ) {
+        repoList.add('lib32-gremlins')
+        repoList.add('lib32-goblins')
+    } else if ( src.contains('multilib-testing') && dest.contains('multilib-staging') ) {
+        repoList.add('lib32-goblins')
+        repoList.add('lib32-gremlins')
+    } else if ( src.contains('multilib-testing') && dest.contains('multilib-x86_64') ) {
+        repoList.add('lib32')
+        repoList.add('lib32-gremlins')
+    } else if ( src.contains('multilib-x86_64') && dest.contains('multilib-testing') ) {
+        repoList.add('lib32-gremlins')
+        repoList.add('lib32')
+    }
+    return repoList
+}
 
 pipeline {
     agent any
@@ -21,19 +149,18 @@ pipeline {
                     checkout scm
 
                     def currentCommit = sh(returnStdout: true, script: 'git rev-parse @').trim()
-                    def changedFilesStatus = sh(returnStdout: true, script: "git show --pretty=format: --name-status ${currentCommit}").tokenize('\n')
+                    def changeSet = sh(returnStdout: true, script: "git show --pretty=format: --name-status ${currentCommit}").tokenize('\n')
+
                     def changedFileState = []
                     int entryCount = 0
-                    def repoAdd = ''
-                    def repoRemove = ''
 
-                    for ( int i = 0; i < changedFilesStatus.size(); i++ ) {
-                        def entry = changedFilesStatus[i].split()
+                    for ( int i = 0; i < changeSet.size(); i++ ) {
+                        def entry = changeSet[i].split()
                         def fileStatus = entry[0]
                         entryCount = entry.size()
                         for ( int j = 1; j < entry.size(); j++ ) {
                             if ( entry[j].contains('/PKGBUILD') && entry[j].contains('/repos') ){
-                                changedFileState << "${fileStatus} " + entry[j].minus('/PKGBUILD')
+                                changedFileState.add("${fileStatus} " + entry[j].minus('/PKGBUILD'))
                             }
                         }
                     }
@@ -44,395 +171,93 @@ pipeline {
                     echo "changedFileState: ${changedFileState}"
 
                     if ( pkgCount > 0 ) {
+
+                        def srcPkg = ''
+                        def destPkg = ''
+                        def filePath = []
+                        def fileState = []
+                        def srcRepo = ''
+                        def destRepo = ''
+                        def repoAdd = ''
+                        def repoRemove = ''
+
                         // Usually a move from testing to core/extra, the dest repo folder does exist, ie rm and add
                         if ( entryCount == 2 && pkgCount == 2 ) {
-                            def srcPkg = changedFileState[0].split()
-                            def destPkg = changedFileState[1].split()
-                            def filePath = [srcPkg[1], destPkg[1]]
-                            def fileState = [srcPkg[0], destPkg[0]]
-                            def srcRepo = filePath[0].tokenize('/')[2]
-                            def destRepo = filePath[1].tokenize('/')[2]
+                            srcPkg = changedFileState[0].split()
+                            destPkg = changedFileState[1].split()
+                            filePath.add(srcPkg[1])
+                            filePath.add(destPkg[1])
+                            fileState.add(srcPkg[0])
+                            fileState.add(destPkg[0])
+                            srcRepo = filePath[0].tokenize('/')[2]
+                            destRepo = filePath[1].tokenize('/')[2]
 
                             if ( fileState[0] == 'M' ) {
-                                IS_ADD = 'true'
-                                if ( srcRepo == 'staging-x86_64' || srcRepo == 'staging-any' ) {
-                                    repoAdd = 'goblins'
-                                } else if ( srcRepo == 'testing-x86_64' || srcRepo == 'testing-any' ) {
-                                    repoAdd = 'gremlins'
-                                } else if ( srcRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                } else if ( srcRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                }
-
-                                if ( srcRepo.contains('community-staging') ) {
-                                    repoAdd = 'galaxy-goblins'
-                                } else if ( srcRepo.contains('community-testing') ) {
-                                    repoAdd = 'galaxy-gremlins'
-                                } else if ( srcRepo == 'community-x86_64' || srcRepo == 'community-any' ) {
-                                    repoAdd = 'galaxy'
-                                }
-
-                                if ( srcRepo.contains('multilib-staging') ) {
-                                    repoAdd = 'lib32-goblins'
-                                } else if ( srcRepo.contains('multilib-testing') ) {
-                                    repoAdd = 'lib32-gremlins'
-                                } else if ( srcRepo.contains('multilib-x86_64') ) {
-                                    repoAdd = 'lib32'
-                                }
+                                IS_ADD = true
+                                repoAdd = getRepo(srcRepo)
                                 PKG_PATH = filePath[1]
                             } else if ( fileState[1] == 'M' ) {
-                                IS_ADD = 'true'
-                                if ( destRepo == 'staging-x86_64' || destRepo == 'staging-any' ) {
-                                    repoAdd = 'goblins'
-                                } else if ( destRepo == 'testing-x86_64' || destRepo == 'testing-any' ) {
-                                    repoAdd = 'gremlins'
-                                } else if ( destRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                } else if ( destRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                }
-
-                                if ( destRepo.contains('community-staging') ) {
-                                    repoAdd = 'galaxy-goblins'
-                                } else if ( destRepo.contains('community-testing') ) {
-                                    repoAdd = 'galaxy-gremlins'
-                                } else if ( destRepo == 'community-x86_64' || destRepo == 'community-any' ) {
-                                    repoAdd = 'galaxy'
-                                }
-
-                                if ( destRepo.contains('multilib-staging') ) {
-                                    repoAdd = 'lib32-goblins'
-                                } else if ( destRepo.contains('multilib-testing') ) {
-                                    repoAdd = 'lib32-gremlins'
-                                } else if ( destRepo.contains('multilib-x86_64') ) {
-                                    repoAdd = 'lib32'
-                                }
+                                IS_ADD = true
+                                repoAdd = getRepo(destRepo)
                                 PKG_PATH = filePath[0]
                             }
-
                             if ( fileState[0] == 'D' ) {
-                                IS_REMOVE = 'true'
-                                if ( srcRepo == 'staging-x86_64' || srcRepo == 'staging-any' ) {
-                                    repoRemove = 'goblins'
-                                } else if ( srcRepo == 'testing-x86_64' || srcRepo == 'testing-any' ) {
-                                    repoRemove = 'gremlins'
-                                } else if ( srcRepo.contains('core') ) {
-                                    repoRemove = 'system'
-                                } else if ( srcRepo.contains('extra') ) {
-                                    repoRemove = 'world'
-                                }
-
-                                if ( srcRepo.contains('community-staging') ) {
-                                    repoRemove = 'galaxy-goblins'
-                                } else if ( srcRepo.contains('community-testing') ) {
-                                    repoRemove = 'galaxy-gremlins'
-                                } else if ( srcRepo == 'community-x86_64' || srcRepo == 'community-any' ) {
-                                    repoRemove = 'galaxy'
-                                }
-
-                                if ( srcRepo.contains('multilib-staging') ) {
-                                    repoRemove = 'lib32-goblins'
-                                } else if ( srcRepo.contains('multilib-testing') ) {
-                                    repoRemove = 'lib32-gremlins'
-                                } else if ( srcRepo.contains('multilib-x86_64') ) {
-                                    repoRemove = 'lib32'
-                                }
+                                IS_REMOVE = true
+                                repoRemove = getRepo(srcRepo)
                                 PKG_PATH = filePath[1]
                             } else if ( fileState[1] == 'D' ) {
-                                IS_REMOVE = 'true'
-                                if ( destRepo == 'staging-x86_64' || destRepo == 'staging-any' ) {
-                                    repoRemove = 'goblins'
-                                } else if ( destRepo == 'testing-x86_64' || destRepo == 'testing-any' ) {
-                                    repoRemove = 'gremlins'
-                                } else if ( destRepo.contains('core') ) {
-                                    repoRemove = 'system'
-                                } else if ( destRepo.contains('extra') ) {
-                                    repoRemove = 'world'
-                                }
-
-                                if ( destRepo.contains('community-staging') ) {
-                                    repoRemove = 'galaxy-goblins'
-                                } else if ( destRepo.contains('community-testing') ) {
-                                    repoRemove = 'galaxy-gremlins'
-                                } else if ( destRepo == 'community-x86_64' || destRepo == 'community-any' ) {
-                                    repoRemove = 'galaxy'
-                                }
-
-                                if ( destRepo.contains('multilib-staging') ) {
-                                    repoRemove = 'lib32-goblins'
-                                } else if ( destRepo.contains('multilib-testing') ) {
-                                    repoRemove = 'lib32-gremlins'
-                                } else if ( destRepo.contains('multilib-x86_64') ) {
-                                    repoRemove = 'lib32'
-                                }
+                                IS_REMOVE = true
+                                repoRemove = getRepo(destRepo)
                                 PKG_PATH = filePath[0]
                             }
-
-                            ADD_ARGS = "-a -d ${repoAdd}"
-                            RM_ARGS = "-r -d ${repoRemove}"
                             PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
-                            echo "srcRepo: ${srcRepo}"
-                            echo "destRepo: ${destRepo}"
-                            echo "repoAdd: ${repoAdd}"
-                            echo "repoRemove: ${repoRemove}"
-                        }
-
-                        if ( entryCount == 3 && pkgCount == 2 ) {
+                        } else if ( entryCount == 3 && pkgCount == 2 ) {
                             // Usually a move from staging to testing, the dest repo doesn't exist, ie rename of folder
-                            def srcPkg = changedFileState[0].split()
-                            def destPkg = changedFileState[1].split()
-                            def filePath = [srcPkg[1], destPkg[1]]
-                            def fileState = [srcPkg[0], destPkg[0]]
-                            def srcRepo = filePath[0].tokenize('/')[2]
-                            def destRepo = filePath[1].tokenize('/')[2]
+                            srcPkg = changedFileState[0].split()
+                            destPkg = changedFileState[1].split()
+                            filePath.add(srcPkg[1])
+                            filePath.add(destPkg[1])
+                            fileState.add(srcPkg[0])
+                            fileState.add(destPkg[0])
+                            srcRepo = filePath[0].tokenize('/')[2]
+                            destRepo = filePath[1].tokenize('/')[2]
 
                             if ( fileState[0].contains('R') && fileState[1].contains('R') )  {
-                                IS_ADD = 'true'
-                                IS_REMOVE = 'true'
-
-                                if ( srcRepo == 'staging-x86_64' && destRepo == 'testing-x86_64' ) {
-                                    repoAdd = 'gremlins'
-                                    repoRemove = 'goblins'
-                                } else if ( srcRepo == 'staging-any' && destRepo == 'testing-any' ) {
-                                    repoAdd = 'gremlins'
-                                    repoRemove = 'goblins'
-                                } else if ( srcRepo == 'testing-x86_64' && destRepo == 'staging-x86_64' ) {
-                                    repoAdd = 'goblins'
-                                    repoRemove = 'gremlins'
-                                } else if ( srcRepo == 'testing-any' && destRepo == 'staging-any' ) {
-                                    repoAdd = 'goblins'
-                                    repoRemove = 'gremlins'
-                                }
-
-                                if ( srcRepo.contains('core') && destRepo == 'testing-x86_64' ) {
-                                    repoAdd = 'gremlins'
-                                    repoRemove = 'system'
-                                } else if ( srcRepo.contains('core') && destRepo == 'testing-any' ) {
-                                    repoAdd = 'gremlins'
-                                    repoRemove = 'system'
-                                } else if ( srcRepo == 'testing-x86_64' && destRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                    repoRemove = 'gremlins'
-                                } else if ( srcRepo == 'testing-any' && destRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                    repoRemove = 'gremlins'
-                                }
-
-                                if ( srcRepo.contains('extra') && destRepo == 'testing-x86_64' ) {
-                                    repoAdd = 'gremlins'
-                                    repoRemove = 'world'
-                                } else if ( srcRepo.contains('extra') && destRepo == 'testing-any' ) {
-                                    repoAdd = 'gremlins'
-                                    repoRemove = 'world'
-                                } else if ( srcRepo == 'testing-x86_64' && destRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                    repoRemove = 'gremlins'
-                                } else if ( srcRepo == 'testing-any' && destRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                    repoRemove = 'gremlins'
-                                }
-
-                                if ( srcRepo.contains('core') && destRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                    repoRemove = 'system'
-                                } else if ( srcRepo.contains('extra') && destRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                    repoRemove = 'world'
-                                }
-
-                                if ( srcRepo == 'community-x86_64' && destRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                    repoRemove = 'galaxy'
-                                } else if ( srcRepo == 'community-any' && destRepo.contains('extra') ) {
-                                    repoAdd = 'world'
-                                    repoRemove = 'galaxy'
-                                } else if ( srcRepo.contains('extra') && destRepo == 'community-x86_64' ) {
-                                    repoAdd = 'galaxy'
-                                    repoRemove = 'world'
-                                } else if ( srcRepo.contains('extra') && destRepo == 'community-any' ) {
-                                    repoAdd = 'galaxy'
-                                    repoRemove = 'world'
-                                }
-
-                                if ( srcRepo == 'community-x86_64' && destRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                    repoRemove = 'galaxy'
-                                } else if ( srcRepo == 'community-any' && destRepo.contains('core') ) {
-                                    repoAdd = 'system'
-                                    repoRemove = 'galaxy'
-                                } else if ( srcRepo.contains('core') && destRepo == 'community-x86_64' ) {
-                                    repoAdd = 'galaxy'
-                                    repoRemove = 'system'
-                                } else if ( srcRepo.contains('core') && destRepo == 'community-any' ) {
-                                    repoAdd = 'galaxy'
-                                    repoRemove = 'system'
-                                }
-
-                                if ( srcRepo.contains('community-staging') && destRepo.contains('community-testing') ) {
-                                    repoAdd = 'galaxy-gremlins'
-                                    repoRemove = 'galaxy-goblins'
-                                } else if ( srcRepo.contains('community-testing') && destRepo.contains('community-staging') ) {
-                                    repoAdd = 'galaxy-goblins'
-                                    repoRemove = 'galaxy-gremlins'
-                                } else if ( srcRepo.contains('community-testing') && destRepo == 'community-x86_64' ) {
-                                    repoAdd = 'galaxy'
-                                    repoRemove = 'galaxy-gremlins'
-                                } else if ( srcRepo.contains('community-testing') && destRepo == 'community-any' ) {
-                                    repoAdd = 'galaxy'
-                                    repoRemove = 'galaxy-gremlins'
-                                } else if ( srcRepo == 'community-x86_64' && destRepo.contains('community-testing') ) {
-                                    repoAdd = 'galaxy-gremlins'
-                                    repoRemove = 'galaxy'
-                                } else if ( srcRepo == 'community-any' && destRepo.contains('community-testing') ) {
-                                    repoAdd = 'galaxy-gremlins'
-                                    repoRemove = 'galaxy'
-                                }
-
-                                if ( srcRepo.contains('multilib-staging') && destRepo.contains('multilib-testing') ) {
-                                    repoAdd = 'lib32-gremlins'
-                                    repoRemove = 'lib32-goblins'
-                                } else if ( srcRepo.contains('multilib-testing') && destRepo.contains('multilib-staging') ) {
-                                    repoAdd = 'lib32-goblins'
-                                    repoRemove = 'lib32-gremlins'
-                                } else if ( srcRepo.contains('multilib-testing') && destRepo.contains('multilib-x86_64') ) {
-                                    repoAdd = 'lib32'
-                                    repoRemove = 'lib32-gremlins'
-                                } else if ( srcRepo.contains('multilib-x86_64') && destRepo.contains('multilib-testing') ) {
-                                    repoAdd = 'lib32-gremlins'
-                                    repoRemove = 'lib32'
-                                }
+                                IS_ADD = true
+                                IS_REMOVE = true
+                                repoAdd = getRepos(srcRepo, destRepo)[0]
+                                repoRemove = getRepos(srcRepo, destRepo)[1]
                             }
-                            ADD_ARGS = "-a -d ${repoAdd}"
-                            RM_ARGS = "-r -d ${repoRemove}"
-                            PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
                             PKG_PATH = filePath[1]
-                            echo "srcRepo: ${srcRepo}"
-                            echo "destRepo: ${destRepo}"
-                            echo "repoAdd: ${repoAdd}"
-                            echo "repoRemove: ${repoRemove}"
-                        }
-
-                        if ( pkgCount == 1 ) {
+                            PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
+                        } else if ( pkgCount == 1 ) {
                             // Usually a build
-                            def srcPkg = changedFileState[0].split()
-                            def fileState = srcPkg[0]
-                            def filePath = srcPkg[1]
-                            def srcRepo = filePath.tokenize('/')[2]
+                            srcPkg = changedFileState[0].split()
+                            filePath.add(srcPkg[1])
+                            fileState.add(srcPkg[0])
+                            srcRepo = filePath[0].tokenize('/')[2]
 
-                            if ( srcRepo == 'staging-x86_64' || srcRepo == 'staging-any' ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'goblins'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo == 'testing-x86_64' || srcRepo == 'testing-any' ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'gremlins'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo.contains('core') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'system'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo.contains('extra') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'world'
-                                repoRemove = repoAdd
+                            if ( fileState[0] == 'A' || fileState[0] == 'M' ) {
+                                IS_BUILD = true
+                                repoAdd = getRepo(srcRepo)
+                            } else if ( fileState[0] == 'D' ) {
+                                IS_REMOVE = true
+                                repoRemove = getRepo(srcRepo)
                             }
-
-                            if ( srcRepo.contains('community-staging') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'galaxy-goblins'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo.contains('community-testing') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'galaxy-gremlins'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo == 'community-x86_64' || srcRepo == 'community-any' ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'galaxy'
-                                repoRemove = repoAdd
-                            }
-
-                            if ( srcRepo.contains('multilib-staging') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'lib32-goblins'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo.contains('multilib-testing') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'lib32-gremlins'
-                                repoRemove = repoAdd
-                            } else if ( srcRepo.contains('multilib-x86_64') ) {
-                                if ( fileState == 'A' || fileState == 'M' ) {
-                                    IS_BUILD = 'true'
-                                }
-                                if ( fileState == 'D' ) {
-                                    IS_REMOVE = 'true'
-                                }
-                                repoAdd = 'lib32'
-                                repoRemove = repoAdd
-                            }
-                            ADD_ARGS = "-a -d ${repoAdd}"
-                            RM_ARGS = "-r -d ${repoRemove}"
                             BUILD_ARGS = "-r ${repoAdd}"
-
-                            PKG_PATH = filePath
-                            PKG_TRUNK = filePath.tokenize('/')[0] + '/trunk'
-                            echo "srcRepo: ${srcRepo}"
-                            echo "repoAdd: ${repoAdd}"
-                            echo "repoRemove: ${repoRemove}"
+                            PKG_PATH = filePath[0]
+                            PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
                         }
+                        ADD_ARGS = "-a -d ${repoAdd}"
+                        RM_ARGS = "-r -d ${repoRemove}"
+                        echo "PKG_PATH: ${PKG_PATH}"
                     }
-                    echo "PKG_PATH: ${PKG_PATH}"
                 }
             }
         }
         stage('Build') {
             when {
-                expression { return IS_BUILD == 'true' }
+                expression { return IS_BUILD }
             }
             steps {
                 dir("${PKG_PATH}") {
@@ -441,11 +266,11 @@ pipeline {
             }
             post {
                 failure {
-                    emailext body: "<b>Failure</b><br><br>Project: ${env.JOB_NAME} ${PKG_PATH} <br>Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", subject: "FAILURE CI: ${env.JOB_NAME} ${PKG_PATH}", to: "devs@artixlinux.org"
+                    emailext body: "<b>Failure</b><br><br>Project: ${env.JOB_NAME}/${PKG_PATH} <br>Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", subject: "FAILURE CI: ${env.JOB_NAME}/${PKG_PATH}", to: "devs@artixlinux.org"
                 }
                 success {
                     script {
-                        IS_BUILD_SUCCESS = 'true'
+                        IS_BUILD_SUCCESS = true
                         ADD_ARGS = ADD_ARGS + ' -s'
                     }
                 }
@@ -457,8 +282,8 @@ pipeline {
             }
             when {
                 anyOf {
-                    expression { return IS_ADD == 'true' }
-                    expression { return IS_BUILD_SUCCESS == 'true' }
+                    expression { return IS_ADD }
+                    expression { return IS_BUILD_SUCCESS }
                 }
             }
             steps {
@@ -477,7 +302,7 @@ pipeline {
         }
         stage('Remove') {
             when {
-                expression { return IS_REMOVE == 'true' }
+                expression { return IS_REMOVE }
             }
             steps {
                 script {
