@@ -177,7 +177,7 @@ pipeline {
                         String repoRemove = ''
                         if ( pkgCount == 1 ) {
                             pkgPath.add(pkgPathState[0].split()[1])
-                            pkgState.add(srcPkg[0])
+                            pkgState.add(pkgPathState[0].split()[0])
                             srcRepo = pkgPath[0].tokenize('/')[2]
 
                             if ( pkgState[0] == 'A' || pkgState[0] == 'M' ) {
