@@ -1,15 +1,15 @@
-def PKG_TRUNK = ''
-def PKG_PATH = ''
-def ADD_ARGS = ''
-def RM_ARGS = ''
-def BUILD_ARGS = ''
+String PKG_TRUNK = ''
+String PKG_PATH = ''
+String ADD_ARGS = ''
+String RM_ARGS = ''
+String BUILD_ARGS = ''
 Boolean IS_ADD = false
 Boolean IS_REMOVE = false
 Boolean IS_BUILD = false
 Boolean IS_BUILD_SUCCESS = false
 
-def getRepo(src) {
-    def repo = ''
+static String getRepo(String src) {
+    String repo = ''
     if ( src == 'staging-x86_64' || src == 'staging-any' ) {
         repo = 'goblins'
     } else if ( src == 'testing-x86_64' || src == 'testing-any' ) {
@@ -34,8 +34,8 @@ def getRepo(src) {
     return repo
 }
 
-def getRepos(src, dest) {
-    def repoList = []
+static List<String> getRepos(String src, String dest) {
+    List<String> repoList = []
     if ( src == 'staging-x86_64' && dest == 'testing-x86_64' ) {
         repoList.add('gremlins')
         repoList.add('goblins')
@@ -148,105 +148,84 @@ pipeline {
                 script {
                     checkout scm
 
-                    def currentCommit = sh(returnStdout: true, script: 'git rev-parse @').trim()
-                    def changeSet = sh(returnStdout: true, script: "git show --pretty=format: --name-status ${currentCommit}").tokenize('\n')
+                    String currentCommit = sh(returnStdout: true, script: 'git rev-parse @').trim()
+                    List<String> changeSet = sh(returnStdout: true, script: "git show --pretty=format: --name-status ${currentCommit}").tokenize('\n')
 
-                    def changedFileState = []
-                    int entryCount = 0
+                    List<String> pkgPathState = []
 
                     for ( int i = 0; i < changeSet.size(); i++ ) {
-                        def entry = changeSet[i].split()
-                        def fileStatus = entry[0]
-                        entryCount = entry.size()
+                        List<String> entry = changeSet[i].split()
+                        String fileStatus = entry[0]
                         for ( int j = 1; j < entry.size(); j++ ) {
                             if ( entry[j].contains('/PKGBUILD') && entry[j].contains('/repos') ){
-                                changedFileState.add("${fileStatus} " + entry[j].minus('/PKGBUILD'))
+                                pkgPathState.add("${fileStatus} " + entry[j].minus('/PKGBUILD'))
                             }
                         }
                     }
 
-                    int pkgCount = changedFileState.size()
+                    byte pkgCount = pkgPathState.size()
 
                     echo "currentCommit: ${currentCommit}"
-                    echo "changedFileState: ${changedFileState}"
+                    echo "pkgPathState: ${pkgPathState}"
 
                     if ( pkgCount > 0 ) {
+                        List<String> pkgPath = []
+                        List<String> pkgState = []
+                        String srcRepo = ''
+                        String destRepo = ''
+                        String repoAdd = ''
+                        String repoRemove = ''
+                        if ( pkgCount == 1 ) {
+                            pkgPath.add(pkgPathState[0].split()[1])
+                            pkgState.add(srcPkg[0])
+                            srcRepo = pkgPath[0].tokenize('/')[2]
 
-                        def srcPkg = ''
-                        def destPkg = ''
-                        def filePath = []
-                        def fileState = []
-                        def srcRepo = ''
-                        def destRepo = ''
-                        def repoAdd = ''
-                        def repoRemove = ''
-
-                        // Usually a move from testing to core/extra, the dest repo folder does exist, ie rm and add
-                        if ( entryCount == 2 && pkgCount == 2 ) {
-                            srcPkg = changedFileState[0].split()
-                            destPkg = changedFileState[1].split()
-                            filePath.add(srcPkg[1])
-                            filePath.add(destPkg[1])
-                            fileState.add(srcPkg[0])
-                            fileState.add(destPkg[0])
-                            srcRepo = filePath[0].tokenize('/')[2]
-                            destRepo = filePath[1].tokenize('/')[2]
-
-                            if ( fileState[0] == 'M' ) {
-                                IS_ADD = true
+                            if ( pkgState[0] == 'A' || pkgState[0] == 'M' ) {
+                                IS_BUILD = true
                                 repoAdd = getRepo(srcRepo)
-                                PKG_PATH = filePath[1]
-                            } else if ( fileState[1] == 'M' ) {
-                                IS_ADD = true
-                                repoAdd = getRepo(destRepo)
-                                PKG_PATH = filePath[0]
-                            }
-                            if ( fileState[0] == 'D' ) {
+                                BUILD_ARGS = "-r ${repoAdd}"
+                            } else if ( pkgState[0] == 'D' ) {
                                 IS_REMOVE = true
                                 repoRemove = getRepo(srcRepo)
-                                PKG_PATH = filePath[1]
-                            } else if ( fileState[1] == 'D' ) {
+                            }
+                            PKG_PATH = pkgPath[0]
+                            PKG_TRUNK = pkgPath[0].tokenize('/')[0] + '/trunk'
+                        } else if ( pkgCount == 2 ) {
+                            pkgPath.add(pkgPathState[0].split()[1])
+                            pkgPath.add(pkgPathState[1].split()[1])
+                            pkgState.add(pkgPathState[0].split()[0])
+                            pkgState.add(pkgPathState[1].split()[0])
+                            srcRepo = pkgPath[0].tokenize('/')[2]
+                            destRepo = pkgPath[1].tokenize('/')[2]
+
+                            if ( pkgState[0] == 'M' ) {
+                                IS_ADD = true
+                                repoAdd = getRepo(srcRepo)
+                                PKG_PATH = pkgPath[1]
+                            } else if ( pkgState[1] == 'M' ) {
+                                IS_ADD = true
+                                repoAdd = getRepo(destRepo)
+                                PKG_PATH = pkgPath[0]
+                            }
+
+                            if ( pkgState[0] == 'D' ) {
+                                IS_REMOVE = true
+                                repoRemove = getRepo(srcRepo)
+                                PKG_PATH = pkgPath[1]
+                            } else if ( pkgState[1] == 'D' ) {
                                 IS_REMOVE = true
                                 repoRemove = getRepo(destRepo)
-                                PKG_PATH = filePath[0]
+                                PKG_PATH = pkgPath[0]
                             }
-                            PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
-                        } else if ( entryCount == 3 && pkgCount == 2 ) {
-                            // Usually a move from staging to testing, the dest repo doesn't exist, ie rename of folder
-                            srcPkg = changedFileState[0].split()
-                            destPkg = changedFileState[1].split()
-                            filePath.add(srcPkg[1])
-                            filePath.add(destPkg[1])
-                            fileState.add(srcPkg[0])
-                            fileState.add(destPkg[0])
-                            srcRepo = filePath[0].tokenize('/')[2]
-                            destRepo = filePath[1].tokenize('/')[2]
 
-                            if ( fileState[0].contains('R') && fileState[1].contains('R') )  {
+                            if ( pkgState[0].contains('R') && pkgState[1].contains('R') )  {
                                 IS_ADD = true
                                 IS_REMOVE = true
                                 repoAdd = getRepos(srcRepo, destRepo)[0]
                                 repoRemove = getRepos(srcRepo, destRepo)[1]
+                                PKG_PATH = pkgPath[1]
                             }
-                            PKG_PATH = filePath[1]
-                            PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
-                        } else if ( pkgCount == 1 ) {
-                            // Usually a build
-                            srcPkg = changedFileState[0].split()
-                            filePath.add(srcPkg[1])
-                            fileState.add(srcPkg[0])
-                            srcRepo = filePath[0].tokenize('/')[2]
-
-                            if ( fileState[0] == 'A' || fileState[0] == 'M' ) {
-                                IS_BUILD = true
-                                repoAdd = getRepo(srcRepo)
-                            } else if ( fileState[0] == 'D' ) {
-                                IS_REMOVE = true
-                                repoRemove = getRepo(srcRepo)
-                            }
-                            BUILD_ARGS = "-r ${repoAdd}"
-                            PKG_PATH = filePath[0]
-                            PKG_TRUNK = filePath[0].tokenize('/')[0] + '/trunk'
+                            PKG_TRUNK = pkgPath[0].tokenize('/')[0] + '/trunk'
                         }
                         ADD_ARGS = "-a -d ${repoAdd}"
                         RM_ARGS = "-r -d ${repoRemove}"
@@ -271,7 +250,7 @@ pipeline {
                 success {
                     script {
                         IS_BUILD_SUCCESS = true
-                        ADD_ARGS = ADD_ARGS + ' -s'
+                        ADD_ARGS += ' -s'
                     }
                 }
             }
