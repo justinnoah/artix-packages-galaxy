@@ -3,10 +3,10 @@
 
 pkgname=bumblebee
 pkgver=3.2.1
-pkgrel=17
+pkgrel=18
 pkgdesc="NVIDIA Optimus support for Linux through VirtualGL"
 arch=('x86_64')
-depends=('virtualgl' 'glib2' 'mesa-libgl' 'libbsd')
+depends=('virtualgl' 'glib2' 'mesa-libgl')
 makedepends=('help2man')
 optdepends=('bbswitch: switch on/off discrete card'
             'nvidia: NVIDIA kernel driver'
@@ -75,6 +75,9 @@ package() {
 
     # Make bash_completion work
     mv -v "$pkgdir"/usr/share/bash-completion/completions/{bumblebee,optirun}
+
+    # Fix for FS#59312
+    sed -i "s/have/_have/" "${pkgdir}/usr/share/bash-completion/completions/optirun"
 
     install -Dm644 "$srcdir"/bumblebee.sysusers "$pkgdir"/usr/lib/sysusers.d/$pkgname.conf
 }
