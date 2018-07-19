@@ -24,12 +24,9 @@ checkdepends=('python-pytest32' 'python2-pytest32' 'python-pytest-runner' 'pytho
               'python-yaml' 'python2-yaml' 'python-pyzmq' 'python2-pyzmq' 'python-eventlet'
               'python2-eventlet')
 source=("https://pypi.io/packages/source/c/celery/celery-$pkgver.tar.gz"
-        celery@.service celery2@.service
         celery.tmpfiles.d celery2.tmpfiles.d)
 options=('!emptydirs')
 sha512sums=('474733200e0f6aadbfab5deeb43ee563618687792d43219ebc81a53084ad491cafa410d6bb56153c3d14c76d358ce119f0055ee9b6c31e6becfe8ddf2d2178ad'
-            '3c6c9dbdacca2de12d49c03526b34797fd867c14d04115af0d1fda64d2848a5d3f64ceb6d284be319a81d932dc86e69c157b6f5f859f2fa213fc2f43a6052c65'
-            '1227803e56d5ea7879e097609b8f85633d6c0af4fa3607b98b4f30ffad093b0f3c3e7c54d965f44e954b6d9642a08e767836a9b837e225772d61dffa2042577c'
             '67279b75c3b44d065811c9c90aee006296164000912d5bb97c74956b26ee4ad4f0847e846052a896d379848b869c849300367e676d3f689cf29e3a0c7ae5310b'
             'ffeb86b07440de7943343d5a9348980a45d414f42dd29fd78f70e3680600e5dfb6a3a48748746e3af00f42aad9ba1cd8efeb8b2e81e86fb6febde16429b51399')
 
@@ -68,7 +65,6 @@ package_python-celery() {
   cd "$srcdir"/celery-$pkgver
   python setup.py install --root="$pkgdir" --optimize=1 --skip-build
   install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
-  install -Dm644 "$srcdir"/celery@.service "$pkgdir"/usr/lib/systemd/system/celery@.service
   install -Dm644 "$srcdir"/celery.tmpfiles.d "$pkgdir"/usr/lib/tmpfiles.d/celery.conf
 }
 
@@ -89,7 +85,6 @@ package_python2-celery() {
   cd "$srcdir"/celery-$pkgver-py2
   python2 setup.py install --root="$pkgdir" --optimize=1 --skip-build
   install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
-  install -Dm644 "$srcdir"/celery2@.service "$pkgdir"/usr/lib/systemd/system/celery2@.service
   install -Dm644 "$srcdir"/celery2.tmpfiles.d "$pkgdir"/usr/lib/tmpfiles.d/celery2.conf
 
   for _exe in "$pkgdir"/usr/bin/*; do
